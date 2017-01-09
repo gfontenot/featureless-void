@@ -1,0 +1,40 @@
+#!/bin/sh
+set -e
+
+_psql() { PGPASSWORD="$user" psql --no-psqlrc --username "$user" "$@"; }
+_databaseExists() { psql -lqt | cut -d \| -f 1 | grep -qw "$@"; }
+
+app='featureless_void'
+user="$app"
+devdb="${app}_dev"
+testdb="${app}_test"
+
+# Drop databases if they exist
+if _databaseExists $devdb; then
+  dropdb $devdb
+fi
+if _databaseExists $testdb; then
+  dropdb $testdb
+fi
+
+# Create databases
+createdb $devdb 2>/dev/null || true
+createdb $testdb 2>/dev/null || true
+
+# Grant privileges
+psql template1 >/dev/null <<SQL
+  DO
+  \$body\$
+    BEGIN
+      IF NOT EXISTS (SELECT * FROM pg_catalog.pg_user WHERE usename = '$user')
+      THEN CREATE USER $user WITH PASSWORD '$user';
+      END IF;
+    END
+  \$body\$;
+  GRANT ALL PRIVILEGES ON DATABASE ${devdb} to $user;
+  GRANT ALL PRIVILEGES ON DATABASE ${testdb} to $user;
+SQL
+
+# Test connections
+_psql --dbname $devdb </dev/null
+_psql --dbname $testdb </dev/null
