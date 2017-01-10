@@ -1,9 +1,19 @@
-resolver: lts-7.14
+compiler-check: match-exact
+resolver: lts-7.15
+compiler: ghc-8.0.1.20161213
+setup-info:
+  ghc:
+    macosx:
+      8.0.1.20161213:
+        url: https://downloads.haskell.org/~ghc/8.0.2-rc2/ghc-8.0.1.20161213-x86_64-apple-darwin.tar.xz
+        content-length: 113359104
+        sha1: d87048467786a7b9667aef0a78d7ffd8779425b2
 
 packages:
 - '.'
 
-extra-deps: []
+extra-deps:
+  - typed-process-0.1.0.0
 
 flags: {}
 
