@@ -2,6 +2,7 @@
 set -e
 
 ./bin/setup-db
+./bin/pre-build
 ./bin/stack-build
 
 echo 'Setup complete'
