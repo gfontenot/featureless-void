@@ -1,5 +1,6 @@
 dist*
 static/tmp/
+static/css/
 static/combined/
 config/client_session_key.aes
 *.hi
@@ -16,3 +17,5 @@ cabal.sandbox.config
 .DS_Store
 *.swp
 *.keter
+.sass-cache/
+.env
