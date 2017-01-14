@@ -6,3 +6,4 @@ User
 
 Scream
     body Markdown
+    createdAt UTCTime
