@@ -2,4 +2,4 @@
 
 <form method=post action=@{NewScreamR} enctype=#{enctype}>
   ^{form}
-  <button class="btn btn-default">Scream!
+  <input type="submit" value="Scream!" />
