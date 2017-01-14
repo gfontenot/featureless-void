@@ -73,7 +73,6 @@ instance Yesod App where
     yesodMiddleware = defaultYesodMiddleware
 
     defaultLayout widget = do
-        master <- getYesod
         mmsg <- getMessage
 
         pc <- widgetToPageContent $ do
