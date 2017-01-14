@@ -1,2 +1,8 @@
-<div .container>
-  <p> Hello World!
+<h1> All Posts
+
+<div .jumbotron>
+  <ul>
+    $forall Entity _ scream <- screams
+      <h4>
+        <li>
+          <p>#{screamBody scream}
