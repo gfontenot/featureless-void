@@ -3,3 +3,6 @@ User
     password Text Maybe
     UniqueUser ident
     deriving Typeable
+
+Scream
+    body Markdown
