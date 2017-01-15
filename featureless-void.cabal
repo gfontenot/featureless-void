@@ -91,6 +91,8 @@ library
                  , case-insensitive
                  , wai
                  , yesod-markdown
+                 , yesod-auth-hashdb
+                 , pwstore-fast
 
 executable         featureless-void
     if flag(library-only)
