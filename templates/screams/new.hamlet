@@ -1,5 +1,9 @@
-<h1> Scream into the void!
+<h1>Scream into the void!
 
 <form method=post action=@{NewScreamR} enctype=#{enctype}>
   ^{form}
-  <input type="submit" value="Scream!" />
+  <span #scream-length .valid-scream .valid-tweet>0 #
+  <span #screamTotal>/280
+  <button #submit>Scream!
+
+<script type="text/javascript" src="/static/js/char-count.js">

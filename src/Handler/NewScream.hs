@@ -21,7 +21,7 @@ fromScreamFields f = do
 screamForm :: Form ScreamFields
 screamForm = renderDivs $
     ScreamFields
-        <$> areq markdownField "Body" Nothing
+        <$> areq markdownField ("Body" { fsId = Just "scream-body" }) Nothing
 
 getNewScreamR :: Handler Html
 getNewScreamR = do
