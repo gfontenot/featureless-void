@@ -1,5 +1,11 @@
 $('#scream-body').on('input', function() {
-  var count = $(this).val().length
+  var preview = document.createElement('div');
+
+  var text = $(this).val()
+  var html = markdown.toHTML(text)
+  $(preview).html(html)
+  var count = preview.innerText.length
+
   $('#scream-length').text(count);
 
   if (count > 280) {

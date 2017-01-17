@@ -6,4 +6,5 @@
   <span #screamTotal>/280
   <button #submit>Scream!
 
+<script type="text/javascript" src="/static/js/markdown.min.js">
 <script type="text/javascript" src="/static/js/char-count.js">
