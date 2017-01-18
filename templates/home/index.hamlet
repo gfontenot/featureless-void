@@ -2,6 +2,8 @@
 
 <div .jumbotron>
   <ul>
-    $forall Entity _ scream <- screams
+    $forall Entity sid scream <- screams
       <li>
         <p>#{screamBody scream}
+        <a href=@{ScreamDetailR sid}>
+          <span .timestamp>#{show $ screamCreatedAt scream}
