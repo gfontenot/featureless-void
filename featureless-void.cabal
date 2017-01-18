@@ -15,6 +15,10 @@ library
     hs-source-dirs: src, src/app
     exposed-modules: Application
                      Foundation
+                     Handler.Common
+                     Handler.Home
+                     Handler.NewScream
+                     Handler.ScreamDetail
                      Helper
                      Helper.Time
                      Import
@@ -22,10 +26,6 @@ library
                      Model
                      Settings
                      Settings.StaticFiles
-                     Handler.Common
-                     Handler.Home
-                     Handler.NewScream
-                     Handler.ScreamDetail
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
