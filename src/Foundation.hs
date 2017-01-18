@@ -75,6 +75,9 @@ instance Yesod App where
         mmsg <- getMessage
 
         pc <- widgetToPageContent $ do
+            addStylesheetRemote "http://gordonfontenot.com/css/reset.css"
+            addStylesheetRemote "http://gordonfontenot.com/css/screen.css"
+            addStylesheet $ StaticR css_microblog_css
 
             $(widgetFile "default-layout")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")

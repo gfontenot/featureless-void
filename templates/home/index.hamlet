@@ -1,9 +1,8 @@
-<h1> All Posts
-
-<div .jumbotron>
-  <ul>
-    $forall Entity sid scream <- screams
-      <li>
-        <p>#{screamBody scream}
+$forall Entity sid scream <- screams
+  <section .scream>
+    <article>
+      #{screamBody scream}
+    <div .meta>
+      <time datetime="#{show $ screamCreatedAt scream}">
         <a href=@{ScreamDetailR sid}>
-          <span .timestamp>#{show $ screamCreatedAt scream}
+          #{timestamp $ screamCreatedAt scream}

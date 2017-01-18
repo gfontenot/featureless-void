@@ -1,0 +1,33 @@
+#micro {
+  color: #999999;
+}
+
+content {
+  display: block;
+  margin-top: 24px;
+}
+
+.scream {
+  display: block;
+  border: 1px solid #ededed;
+  margin-bottom: 24px;
+  padding: 15px;
+}
+
+.scream article {
+  margin: 0;
+}
+
+.scream p {
+  padding-bottom: 15px;
+}
+
+.scream time {
+  display: inline;
+}
+
+.scream time a {
+  border: none;
+  color: #afafaf;
+  font-size: 12px;
+}
