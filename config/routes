@@ -5,5 +5,5 @@
 /robots.txt RobotsR GET
 
 / HomeR GET
-
+!/#ScreamId ScreamDetailR GET
 /screams/new NewScreamR GET POST
