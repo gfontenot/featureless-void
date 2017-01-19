@@ -26,6 +26,7 @@ library
                      Model
                      Settings
                      Settings.StaticFiles
+                     Yesod.Paginator.Simple
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -96,6 +97,7 @@ library
                  , yesod-markdown
                  , yesod-auth-hashdb
                  , pwstore-fast
+                 , yesod-paginator
 
 executable         featureless-void
     if flag(library-only)

@@ -6,3 +6,5 @@ $forall Entity sid scream <- screams
       <time datetime="#{show $ screamCreatedAt scream}">
         <a href=@{ScreamDetailR sid}>
           #{timestamp $ screamCreatedAt scream}
+
+^{pagination}
