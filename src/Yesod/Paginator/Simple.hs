@@ -1,19 +1,10 @@
 module Yesod.Paginator.Simple
-    ( selectSimplePaginated
-    , simplePaginationWidget
+    ( simplePaginationWidget
     ) where
 
 import Import
 import Yesod.Paginator
 import qualified Data.Text as T
-
-selectSimplePaginated :: (PersistEntityBackend val ~ SqlBackend,
-                                PersistEntity val) =>
-                                    Int
-                                    -> [Filter val]
-                                    -> [SelectOpt val]
-                                    -> ReaderT SqlBackend Handler ([Entity val], Widget)
-selectSimplePaginated = selectPaginatedWith simplePaginationWidget
 
 simplePaginationWidget :: PageWidget App
 simplePaginationWidget page per tot = do

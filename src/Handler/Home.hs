@@ -2,6 +2,7 @@ module Handler.Home where
 
 import Import
 import Helper
+import Yesod.Paginator
 import Yesod.Paginator.Simple
 
 getHomeR :: Handler Html
@@ -12,7 +13,8 @@ getHomeR = do
 
 fetchScreams :: Handler ([Entity Scream], Widget)
 fetchScreams = runDB $
-    selectSimplePaginated
+    selectPaginatedWith
+        simplePaginationWidget                -- pagination widget
         30                                    -- number of items per page
         []                                    -- filters
         [Desc ScreamCreatedAt, Desc ScreamId] -- sort descriptors
