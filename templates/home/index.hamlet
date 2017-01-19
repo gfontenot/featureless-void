@@ -1,10 +1,4 @@
 $forall Entity sid scream <- screams
-  <section .scream>
-    <article>
-      #{screamBody scream}
-    <div .meta>
-      <time datetime="#{show $ screamCreatedAt scream}">
-        <a href=@{ScreamDetailR sid}>
-          #{timestamp $ screamCreatedAt scream}
+  ^{singleScream sid scream}
 
 ^{pagination}

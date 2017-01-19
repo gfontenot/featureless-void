@@ -5,6 +5,8 @@ import Helper
 import Yesod.Paginator
 import Yesod.Paginator.Simple
 
+import Handler.ScreamDetail (singleScream)
+
 getHomeR :: Handler Html
 getHomeR = do
     (screams, pagination) <- fetchScreams
