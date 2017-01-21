@@ -81,6 +81,10 @@ instance Yesod App where
 
     makeLogger = return . appLogger
 
+    -- Set the maximum content length for image uploads to 200 megs
+    maximumContentLength _ (Just NewScreamR) = Just $ 200 * 1024 * 1024
+    maximumContentLength _ _ = Just $ 2 * 1024 * 1024 -- 2 megabytes by default
+
 instance YesodPersist App where
     type YesodPersistBackend App = SqlBackend
     runDB action = do
