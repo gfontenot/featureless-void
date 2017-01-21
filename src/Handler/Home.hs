@@ -1,7 +1,6 @@
 module Handler.Home where
 
 import Import
-import Helper
 import Yesod.Paginator
 import Yesod.Paginator.Simple
 
