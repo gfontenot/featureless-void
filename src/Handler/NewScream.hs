@@ -5,6 +5,7 @@ module Handler.NewScream
 
 import Import
 import Yesod.Markdown (Markdown, markdownField)
+import qualified Helper.S3 as S3
 
 getNewScreamR :: Handler Html
 getNewScreamR = do
@@ -23,13 +24,16 @@ postNewScreamR = do
 
 data ScreamFields = ScreamFields
     { bodyField :: Markdown
+    , imageField :: Maybe FileInfo
     }
 
 fromScreamFields :: ScreamFields -> Handler Scream
 fromScreamFields f = do
     now <- liftIO getCurrentTime
+    imageURL <- S3.uploadImage $ imageField f
     return Scream
         { screamBody = bodyField f
+        , screamImageURL = imageURL
         , screamCreatedAt = now
         }
 
@@ -37,6 +41,7 @@ screamForm :: Form ScreamFields
 screamForm = renderDivs $
     ScreamFields
         <$> areq markdownField ("Body" { fsId = Just "scream-body" }) Nothing
+        <*> fileAFormOpt "Image"
 
 renderNewScream :: Widget -> Enctype -> Handler Html
 renderNewScream form enctype = defaultLayout $ do

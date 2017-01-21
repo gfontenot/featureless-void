@@ -6,4 +6,5 @@ User
 
 Scream
     body Markdown
+    imageURL Text Maybe
     createdAt UTCTime

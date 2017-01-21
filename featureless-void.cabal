@@ -20,6 +20,7 @@ library
                      Handler.NewScream
                      Handler.ScreamDetail
                      Helper
+                     Helper.S3
                      Helper.Time
                      Import
                      Import.NoFoundation
