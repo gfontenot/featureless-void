@@ -1,6 +1,8 @@
 <section .scream>
   <article>
     #{screamBody scream}
+    $maybe image <- screamImageURL scream
+      <img src="#{image}">
   <div .meta>
     <time datetime="#{show $ screamCreatedAt scream}">
       <a href=@{ScreamDetailR sid}>
