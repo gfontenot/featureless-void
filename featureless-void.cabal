@@ -99,6 +99,11 @@ library
                  , yesod-auth-hashdb
                  , pwstore-fast
                  , yesod-paginator
+                 , amazonka
+                 , amazonka-s3
+                 , amazonka-s3-streaming
+                 , lens
+                 , load-env
 
 executable         featureless-void
     if flag(library-only)

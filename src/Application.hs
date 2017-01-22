@@ -51,6 +51,7 @@ import System.Log.FastLogger
     , newStdoutLoggerSet
     , toLogStr
     )
+import LoadEnv (loadEnv)
 
 import Handler.Common
 import Handler.Home
@@ -131,7 +132,9 @@ getApplicationDev = do
     return (wsettings, app)
 
 getAppSettings :: IO AppSettings
-getAppSettings = loadYamlSettings [configSettingsYml] [] useEnv
+getAppSettings = do
+    loadEnv
+    loadYamlSettings [configSettingsYml] [] useEnv
 
 develMain :: IO ()
 develMain = develMainHelper getApplicationDev

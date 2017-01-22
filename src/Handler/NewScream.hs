@@ -30,7 +30,7 @@ data ScreamFields = ScreamFields
 fromScreamFields :: ScreamFields -> Handler Scream
 fromScreamFields f = do
     now <- liftIO getCurrentTime
-    imageURL <- S3.uploadImage $ imageField f
+    imageURL <- mapM S3.uploadImage $ imageField f
     return Scream
         { screamBody = bodyField f
         , screamImageURL = imageURL

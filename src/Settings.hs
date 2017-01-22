@@ -41,6 +41,7 @@ data AppSettings = AppSettings
     , appLogLevel               :: LogLevel
     , appMutableStatic          :: Bool
     , appSkipCombining          :: Bool
+    , appS3Bucket               :: Text
     }
 
 instance FromJSON AppSettings where
@@ -60,6 +61,7 @@ instance FromJSON AppSettings where
         appLogLevel               <- parseLogLevel <$> o .: "log-level"
         appMutableStatic          <- o .:? "mutable-static"   .!= defaultDev
         appSkipCombining          <- o .:? "skip-combining"   .!= defaultDev
+        appS3Bucket               <- o .: "s3-bucket"
 
         return AppSettings {..}
 
