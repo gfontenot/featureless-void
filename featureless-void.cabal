@@ -113,25 +113,7 @@ executable         featureless-void
     hs-source-dirs:    src/app
     build-depends:     base, featureless-void
 
-    ghc-options:       -threaded -rtsopts -with-rtsopts=-N
-
-    extensions: TemplateHaskell
-                QuasiQuotes
-                OverloadedStrings
-                NoImplicitPrelude
-                MultiParamTypeClasses
-                TypeFamilies
-                GADTs
-                GeneralizedNewtypeDeriving
-                FlexibleContexts
-                FlexibleInstances
-                EmptyDataDecls
-                NoMonomorphismRestriction
-                DeriveDataTypeable
-                ViewPatterns
-                TupleSections
-                RecordWildCards
-                CPP
+    ghc-options:       -Wall -Werror -threaded -rtsopts -with-rtsopts=-N -O2
 
 test-suite test
     type:              exitcode-stdio-1.0
