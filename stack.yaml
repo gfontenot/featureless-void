@@ -1,13 +1,4 @@
-compiler-check: match-exact
-resolver: lts-7.15
-compiler: ghc-8.0.1.20161213
-setup-info:
-  ghc:
-    macosx:
-      8.0.1.20161213:
-        url: https://downloads.haskell.org/~ghc/8.0.2-rc2/ghc-8.0.1.20161213-x86_64-apple-darwin.tar.xz
-        content-length: 113359104
-        sha1: d87048467786a7b9667aef0a78d7ffd8779425b2
+resolver: lts-8.0
 
 packages:
 - '.'
@@ -17,6 +8,12 @@ extra-deps:
   - yesod-markdown-0.11.2
   - yesod-paginator-0.10.1
   - amazonka-s3-streaming-0.1.0.4
+  - load-env-0.1.1
+  - pandoc-1.17.2
+  - aeson-0.11.3.0
+  - directory-1.2.7.1
+  - pandoc-types-1.16.1.1
+  - texmath-0.8.6.7
 
 flags: {}
 

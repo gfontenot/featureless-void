@@ -9,7 +9,6 @@ import Network.AWS
     ( AWS
     , runAWS
     , newEnv
-    , Region(..)
     , Credentials(..)
     )
 import Network.AWS.S3
@@ -46,7 +45,7 @@ getBucketName = do
 
 runS3 :: Text -> (BucketName -> ObjectKey -> AWS a) -> Handler a
 runS3 identifier f = do
-    e <- newEnv NorthVirginia Discover
+    e <- newEnv Discover
     bucketName <- getBucketName
 
     let b = BucketName bucketName
