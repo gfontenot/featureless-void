@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+# usage: ./bin/deploy [ENV]
+#
+#   ENV defaults to staging
+#
+###
+set -e
+
+STAGING=featureless-void-staging
+PRODUCTION=featureless-void-production
+
+case "${1:-staging}" in
+  staging)
+    app="$STAGING"
+    ;;
+  production)
+    app="$PRODUCTION"
+    ./bin/promotable "$STAGING" "$PRODUCTION"
+    ;;
+  *)
+    sed '/^# \(usage:.*\)/!d; s//\1/' "$0" >&2
+    exit 64
+    ;;
+esac
+
+bin/docker-build
+docker tag featureless-void-web "registry.heroku.com/${app}/web"
+docker push "registry.heroku.com/${app}/web"

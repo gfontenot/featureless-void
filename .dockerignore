@@ -1,0 +1,12 @@
+.dockerignore
+.env
+.git
+.sass-cache
+.stack-work
+dist/
+docker/*.plan
+docker/build/stack
+docker/build/stack-work
+docker-compose.yml
+static/tmp/
+yesod-devel/

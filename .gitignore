@@ -1,4 +1,5 @@
 dist*
+docker/build
 static/tmp/
 static/combined/
 *.hi

@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# usage: promotable FROM TO
+#
+###
+
+if [ $# -lt 2 ]; then
+  sed '/^# \(usage:.*\)/!d; s//\1/' "$0" >&2
+  exit 64
+fi
+
+FROM_ENV=$1
+TO_ENV=$2
+
+set -e
+
+get_variables() {
+  cut -d: -f1 -s
+}
+
+FROM_VARS=$(heroku config --app "$FROM_ENV" | get_variables)
+TO_VARS=$(heroku config --app "$TO_ENV" | get_variables)
+
+MISSING_VARS=$(comm -23 <(echo "$FROM_VARS") <(echo "$TO_VARS"))
+
+if [[ "$MISSING_VARS" != "" ]]; then
+  echo "${TO_ENV} is missing the following keys:"
+  echo "$MISSING_VARS"
+  exit 1
+fi
