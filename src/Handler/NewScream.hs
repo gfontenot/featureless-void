@@ -46,7 +46,6 @@ screamForm = renderDivs $
 renderNewScream :: Widget -> Enctype -> Handler Html
 renderNewScream form enctype = defaultLayout $ do
     setTitle "New Scream"
-    addScriptRemote "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"
     addScript $ StaticR js_markdown_min_js
     addScript $ StaticR js_char_count_js
     $(widgetFile "screams/new")
