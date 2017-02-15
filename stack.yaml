@@ -14,6 +14,8 @@ extra-deps:
   - directory-1.2.7.1
   - pandoc-types-1.16.1.1
   - texmath-0.8.6.7
+  - heroku-persistent-0.2.0
+  - heroku-0.1.2.3
 
 flags: {}
 

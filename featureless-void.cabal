@@ -104,6 +104,7 @@ library
                  , amazonka-s3-streaming
                  , lens
                  , load-env
+                 , heroku-persistent
 
 executable         featureless-void
     if flag(library-only)

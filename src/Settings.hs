@@ -13,6 +13,7 @@ import Data.Aeson
 import Data.FileEmbed (embedFile)
 import Data.Yaml (decodeEither')
 import Database.Persist.Postgresql (PostgresConf)
+import Web.Heroku.Persist.Postgresql (fromDatabaseUrl)
 import Language.Haskell.TH.Syntax
     ( Exp
     , Name
@@ -53,7 +54,9 @@ instance FromJSON AppSettings where
                 False
 #endif
         appStaticDir              <- o .: "static-dir"
-        appDatabaseConf           <- o .: "database"
+        appDatabaseConf           <- fromDatabaseUrl
+            <$> o .: "database-pool-size"
+            <*> o .: "database-url"
         appRoot                   <- o .:? "approot"
         appHost                   <- fromString <$> o .: "host"
         appPort                   <- o .: "port"

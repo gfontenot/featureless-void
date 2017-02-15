@@ -5,11 +5,5 @@ ip-from-header: "_env:IP_FROM_HEADER:false"
 log-level:      "_env:LOG_LEVEL:info"
 s3-bucket:      "_env:S3_BUCKET:images.micro.gordonfontenot.com.dev"
 
-database:
-  user:     "_env:PGUSER:featureless_void"
-  password: "_env:PGPASS:featureless_void"
-  host:     "_env:PGHOST:localhost"
-  port:     "_env:PGPORT:5432"
-  # See config/test-settings.yml for an override during tests
-  database: "_env:PGDATABASE:featureless_void_dev"
-  poolsize: "_env:PGPOOLSIZE:10"
+database-url: "_env:DATABASE_URL:postgres://featureless_void:featureless_void@localhost:5432/featureless_void_dev"
+database-pool-size: "_env:DATABASE_POOL_SIZE:10"
