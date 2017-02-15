@@ -38,9 +38,10 @@ instance Yesod App where
             Nothing -> getApprootText guessApproot app req
             Just root -> root
 
-    makeSessionBackend _ = Just <$> defaultClientSessionBackend
-        120    -- timeout in minutes
-        "config/client_session_key.aes"
+    makeSessionBackend _ =
+        Just <$> envClientSessionBackend oneWeek "SESSION_KEY"
+      where
+        oneWeek = 60 * 24 * 7
 
     yesodMiddleware = defaultYesodMiddleware . defaultCsrfMiddleware
 
