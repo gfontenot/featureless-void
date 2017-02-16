@@ -6,7 +6,7 @@ import Options.Applicative
 
 import Import
 import Application
-import Task.Import
+import Task.TweetImport
 
 type Task = Handler ()
 type Command m = Mod CommandFields m

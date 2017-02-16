@@ -1,4 +1,4 @@
-module Task.Import
+module Task.TweetImport
     ( importTweets
     ) where
 

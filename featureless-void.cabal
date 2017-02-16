@@ -28,8 +28,6 @@ library
                      Query
                      Settings
                      Settings.StaticFiles
-                     Task
-                     Task.Import
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -109,7 +107,6 @@ library
                  , heroku-persistent
                  , uuid
                  , filepath
-                 , optparse-applicative
 
 executable         featureless-void
     if flag(library-only)
@@ -126,10 +123,33 @@ executable         task
         Buildable: False
 
     main-is:           TaskMain.hs
-    hs-source-dirs:    src/app
-    build-depends:     base, featureless-void
+    hs-source-dirs:    task
+    other-modules:     Task
+                     , Task.TweetImport
+
+    build-depends:     base
+                     , featureless-void
+                     , optparse-applicative
 
     ghc-options:       -Wall -Werror -threaded -rtsopts -with-rtsopts=-N -O2
+
+    extensions: TemplateHaskell
+                QuasiQuotes
+                OverloadedStrings
+                NoImplicitPrelude
+                MultiParamTypeClasses
+                TypeFamilies
+                GADTs
+                GeneralizedNewtypeDeriving
+                FlexibleContexts
+                FlexibleInstances
+                EmptyDataDecls
+                NoMonomorphismRestriction
+                DeriveDataTypeable
+                ViewPatterns
+                TupleSections
+                RecordWildCards
+                CPP
 
 test-suite test
     type:              exitcode-stdio-1.0
