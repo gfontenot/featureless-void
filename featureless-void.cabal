@@ -28,6 +28,8 @@ library
                      Query
                      Settings
                      Settings.StaticFiles
+                     Task
+                     Task.Import
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -107,12 +109,23 @@ library
                  , heroku-persistent
                  , uuid
                  , filepath
+                 , optparse-applicative
 
 executable         featureless-void
     if flag(library-only)
         Buildable: False
 
     main-is:           main.hs
+    hs-source-dirs:    src/app
+    build-depends:     base, featureless-void
+
+    ghc-options:       -Wall -Werror -threaded -rtsopts -with-rtsopts=-N -O2
+
+executable         task
+    if flag(library-only)
+        Buildable: False
+
+    main-is:           TaskMain.hs
     hs-source-dirs:    src/app
     build-depends:     base, featureless-void
 
