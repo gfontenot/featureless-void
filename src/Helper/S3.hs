@@ -22,16 +22,19 @@ import Network.AWS.S3.StreamingUpload
     , createMultipartUpload
     )
 import Data.UUID
-    ( toText
+    ( toString
     )
 import Data.UUID.V4
     ( nextRandom
     )
+import System.FilePath.Posix
+    ( takeExtension
+    )
 
 uploadImage :: FileInfo -> Handler Text
 uploadImage info = do
-    uuid <- liftIO $ toText <$> nextRandom
-    let path = uuid <> "/" <> fileName info
+    uuid <- liftIO $ toString <$> nextRandom
+    let path = pack $ uuid <.> fileExtension info
     void $ performUpload path info
     generateURL path
 
@@ -64,3 +67,6 @@ runS3 identifier f = do
         k = ObjectKey identifier
 
     runResourceT $ runAWS e $ f b k
+
+fileExtension :: FileInfo -> String
+fileExtension = takeExtension . unpack . fileName
