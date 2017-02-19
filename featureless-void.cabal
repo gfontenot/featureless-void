@@ -105,6 +105,7 @@ library
                  , lens
                  , load-env
                  , heroku-persistent
+                 , uuid
 
 executable         featureless-void
     if flag(library-only)

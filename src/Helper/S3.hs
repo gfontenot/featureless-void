@@ -21,22 +21,34 @@ import Network.AWS.S3.StreamingUpload
     ( streamUpload
     , createMultipartUpload
     )
+import Data.UUID
+    ( toText
+    )
+import Data.UUID.V4
+    ( nextRandom
+    )
 
 uploadImage :: FileInfo -> Handler Text
 uploadImage info = do
-    void $ performUpload info
-    generateURL info
+    uuid <- liftIO $ toText <$> nextRandom
+    let path = uuid <> "/" <> fileName info
+    void $ performUpload path info
+    generateURL path
 
-performUpload :: FileInfo -> Handler CompleteMultipartUploadResponse
-performUpload info = runS3 (fileName info) $ \b k -> do
+performUpload :: Text -> FileInfo -> Handler CompleteMultipartUploadResponse
+performUpload path info = runS3 path $ \b k -> do
     fileSource info $$ streamUpload $
         set cmuContentType (Just $ fileContentType info) $
             createMultipartUpload b k
 
-generateURL :: FileInfo -> Handler Text
-generateURL info = do
+generateURL :: Text -> Handler Text
+generateURL path = do
     bucketName <- getBucketName
-    return $ "http://" <> bucketName <> ".s3.amazonaws.com/" <> fileName info
+    return
+        $ "http://"
+        <> bucketName
+        <> ".s3.amazonaws.com/"
+        <> path
 
 getBucketName :: Handler Text
 getBucketName = do
