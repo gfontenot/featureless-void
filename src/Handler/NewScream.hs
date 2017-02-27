@@ -34,11 +34,7 @@ parseImages f sid = do
     images <- S3.uploadImages $ maybeToList $ imageField f
     return $ fmap createImage images
   where
-      createImage (fileInfo, url) = Image
-          { imageScreamId = sid
-          , imageFileName = fileName fileInfo
-          , imageUrl = url
-          }
+    createImage (fileInfo, url) = Image sid (fileName fileInfo) url
 
 parseScream :: ScreamFields -> Handler Scream
 parseScream f = do
