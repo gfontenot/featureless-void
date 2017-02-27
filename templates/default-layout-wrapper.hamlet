@@ -19,7 +19,7 @@ $doctype 5
             <span id="fname">gordon#
             <span id="lname">fontenot
 
-      <content>
+      <div#content>
         ^{pageBody pc}
 
     ^{csrfTokenJs}
