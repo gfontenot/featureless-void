@@ -16,7 +16,7 @@ getHomeR :: Handler Html
 getHomeR = do
     (screams', pagination) <- runDB $ paginatedScreams 30 simpleWidget
     images <- runDB $ fetchImagesForScreams screams'
-    let screams = joinOneToMany screamImage screams' images
+    let screams = map (joinOneToMany screamImage images) screams'
     defaultLayout $ do
         $(widgetFile "home/index")
 

@@ -60,15 +60,10 @@ fetchImagesForScream scream =
 
 joinOneToMany :: (ToBackendKey SqlBackend a)
               => (b -> Key a)
-              -> [Entity a]
               -> [Entity b]
-              -> [(Entity a, [Entity b])]
-joinOneToMany f as bs = do
-    for as $ \a -> do
-        let bs' = filter (belongsTo a) bs
-        (a, bs')
+              -> Entity a
+              -> (Entity a, [Entity b])
+joinOneToMany f bs a = (a, filter isRelation bs)
   where
-    belongsTo a b = (fromSqlKey $ f (entityVal b)) == (fromSqlKey $ entityKey a)
-
-for ::  [a] -> (a -> b) -> [b]
-for xs f = map f xs
+    isRelation b = (fromSqlKey $ relationKey b) == (fromSqlKey $ entityKey a)
+    relationKey = f . entityVal
