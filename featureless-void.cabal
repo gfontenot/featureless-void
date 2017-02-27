@@ -25,9 +25,9 @@ library
                      Import
                      Import.NoFoundation
                      Model
+                     Query
                      Settings
                      Settings.StaticFiles
-                     Yesod.Paginator.Simple
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

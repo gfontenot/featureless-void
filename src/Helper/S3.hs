@@ -1,5 +1,6 @@
 module Helper.S3
     ( uploadImage
+    , uploadImages
     ) where
 
 import Import
@@ -31,12 +32,16 @@ import System.FilePath.Posix
     ( takeExtension
     )
 
-uploadImage :: FileInfo -> Handler Text
+uploadImages :: [FileInfo] -> Handler [(FileInfo, Text)]
+uploadImages = mapM uploadImage
+
+uploadImage :: FileInfo -> Handler (FileInfo, Text)
 uploadImage info = do
     uuid <- liftIO $ toString <$> nextRandom
     let path = pack $ uuid <.> fileExtension info
     void $ performUpload path info
-    generateURL path
+    url <- generateURL path
+    return (info, url)
 
 performUpload :: Text -> FileInfo -> Handler CompleteMultipartUploadResponse
 performUpload path info = runS3 path $ \b k -> do

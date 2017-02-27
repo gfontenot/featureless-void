@@ -5,14 +5,16 @@ module Handler.ScreamDetail
 
 import Import
 import Helper
+import Query
 
 getScreamDetailR :: ScreamId -> Handler Html
 getScreamDetailR sid = do
-    scream <- runDB $ get404 sid
+    scream <- runDB $ fetch404 sid
+    images <- runDB $ fetchImagesForScream scream
     defaultLayout $ do
         setTitle "Post from"
-        singleScream sid scream
+        singleScream (scream, images)
 
-singleScream :: ScreamId -> Scream -> Widget
-singleScream sid scream = do
+singleScream :: (Entity Scream, [Entity Image]) -> Widget
+singleScream (Entity sid scream, images) = do
     $(widgetFile "screams/show")

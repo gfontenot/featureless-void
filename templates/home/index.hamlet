@@ -1,4 +1,4 @@
-$forall Entity sid scream <- screams
-  ^{singleScream sid scream}
+$forall scream <- screams
+  ^{singleScream scream}
 
 ^{pagination}

@@ -1,8 +1,8 @@
 <section .scream>
   <article>
     #{screamBody scream}
-    $maybe image <- screamImageURL scream
-      <img src="#{image}">
+    $forall Entity _ image <- images
+      <img src="#{imageUrl image}" alt="#{imageFileName image}">
   <div .meta>
     <time datetime="#{show $ screamCreatedAt scream}">
       <a href=@{ScreamDetailR sid}>

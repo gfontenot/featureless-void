@@ -6,5 +6,9 @@ User
 
 Scream
     body Markdown
-    imageURL Text Maybe
     createdAt UTCTime
+
+Image
+    screamId ScreamId
+    fileName Text
+    url Text

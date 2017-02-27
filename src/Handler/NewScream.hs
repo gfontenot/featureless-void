@@ -17,8 +17,10 @@ postNewScreamR = do
     ((res, form), enctype) <- runFormPost screamForm
     case res of
       FormSuccess fields -> do
-          scream <- fromScreamFields fields
-          _screamId <- runDB $ insert scream
+          scream <- parseScream fields
+          sid <- runDB $ insert scream
+          images <- parseImages fields sid
+          void $ runDB $ insertMany images
           redirect HomeR
       _ -> renderNewScream form enctype
 
@@ -27,13 +29,22 @@ data ScreamFields = ScreamFields
     , imageField :: Maybe FileInfo
     }
 
-fromScreamFields :: ScreamFields -> Handler Scream
-fromScreamFields f = do
+parseImages :: ScreamFields -> ScreamId -> Handler [Image]
+parseImages f sid = do
+    images <- S3.uploadImages $ maybeToList $ imageField f
+    return $ fmap createImage images
+  where
+      createImage (fileInfo, url) = Image
+          { imageScreamId = sid
+          , imageFileName = fileName fileInfo
+          , imageUrl = url
+          }
+
+parseScream :: ScreamFields -> Handler Scream
+parseScream f = do
     now <- liftIO getCurrentTime
-    imageURL <- mapM S3.uploadImage $ imageField f
     return Scream
         { screamBody = bodyField f
-        , screamImageURL = imageURL
         , screamCreatedAt = now
         }
 
