@@ -53,10 +53,7 @@ fetchImagesForScream :: ( BaseBackend backend ~ SqlBackend
                         , MonadIO m
                         , PersistQueryRead backend
                         ) => Entity Scream -> ReaderT backend m [Entity Image]
-fetchImagesForScream scream =
-    selectList
-    [ImageScreamId ==. entityKey scream]
-    []
+fetchImagesForScream scream = fetchImagesForScreams [scream]
 
 joinOneToMany :: (ToBackendKey SqlBackend a)
               => (b -> Key a)
