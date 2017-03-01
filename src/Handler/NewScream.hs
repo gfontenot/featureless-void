@@ -42,6 +42,7 @@ parseScream f = do
     return Scream
         { screamBody = bodyField f
         , screamCreatedAt = now
+        , screamTweetId = Nothing
         }
 
 screamForm :: Form ScreamFields
