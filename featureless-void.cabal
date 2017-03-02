@@ -131,7 +131,7 @@ executable         task
                      , featureless-void
                      , optparse-applicative
 
-    ghc-options:       -Wall -Werror -threaded -rtsopts -with-rtsopts=-N -O2
+    ghc-options:       -Wall -threaded -rtsopts -with-rtsopts=-N -O2
 
     extensions: TemplateHaskell
                 QuasiQuotes
