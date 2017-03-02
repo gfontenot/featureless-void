@@ -8,6 +8,7 @@ Scream
     body Markdown
     createdAt UTCTime
     tweetId Text Maybe
+    deriving Show
 
 Image
     screamId ScreamId
