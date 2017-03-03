@@ -28,6 +28,5 @@ importTweetCommand = command "import"
 
 pathArgument :: Parser FilePath
 pathArgument = argument str
-        ( metavar "PATH"
+        $  metavar "PATH"
         <> help "Path to input file."
-        )
