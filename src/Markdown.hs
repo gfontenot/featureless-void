@@ -34,4 +34,9 @@ markdownField = Field
 
 markdownToHtml :: Markdown -> Either PandocError Html
 markdownToHtml (Markdown m) = fmap (Y.writePandoc Y.yesodDefaultWriterOptions)
-               . Y.parseMarkdown Y.yesodDefaultReaderOptions $ m
+               . Y.parseMarkdown readerOptions $ m
+
+readerOptions :: ReaderOptions
+readerOptions = Y.yesodDefaultReaderOptions
+    { readerExtensions = githubMarkdownExtensions
+    }
