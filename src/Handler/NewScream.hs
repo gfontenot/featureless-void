@@ -31,10 +31,10 @@ data ScreamFields = ScreamFields
 
 parseImages :: ScreamFields -> ScreamId -> Handler [Image]
 parseImages f sid = do
-    images <- S3.uploadImages $ maybeToList $ imageField f
+    images <- S3.uploadItems $ map createDescription $ maybeToList $ imageField f
     return $ fmap createImage images
   where
-    createImage (fileInfo, url) = Image sid (fileName fileInfo) url
+    createImage (desc, url) = Image sid (S3.uploadFileName desc) url
 
 parseScream :: ScreamFields -> Handler Scream
 parseScream f = do
@@ -57,3 +57,10 @@ renderNewScream form enctype = defaultLayout $ do
     addScript $ StaticR js_markdown_min_js
     addScript $ StaticR js_char_count_js
     $(widgetFile "screams/new")
+
+createDescription :: FileInfo -> S3.UploadDescription
+createDescription info = S3.UploadDescription
+    { uploadSource = (fileSource info)
+    , uploadContentType = (fileContentType info)
+    , uploadFileName = (fileName info)
+    }
