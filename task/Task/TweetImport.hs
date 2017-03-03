@@ -34,20 +34,20 @@ importTweet p = do
 
 uploadImages :: FilePath -> ScreamId -> Handler [Image]
 uploadImages p sid = do
-    descriptions <- liftIO $ imagesFrom p
-    images <- S3.uploadItems descriptions
+    uploads <- liftIO $ imagesFrom p
+    images <- S3.uploadItems uploads
     return $ fmap createImage images
   where
     createImage (desc, url) = Image sid (S3.uploadFileName desc) url
 
-imagesFrom :: FilePath -> IO [S3.UploadDescription]
+imagesFrom :: FilePath -> IO [S3.Upload]
 imagesFrom p = do
     let photosPath = p </> "photos"
     imagePaths <- fmap (photosPath </>) <$> listDirectory photosPath
-    return $ fmap createDescription imagePaths
+    return $ fmap createUpload imagePaths
 
-createDescription :: FilePath -> S3.UploadDescription
-createDescription p = S3.UploadDescription
+createUpload :: FilePath -> S3.Upload
+createUpload p = S3.Upload
     { uploadSource = sourceFile p
     , uploadContentType = mimeType p
     , uploadFileName = pack $ takeFileName p

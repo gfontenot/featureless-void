@@ -1,7 +1,7 @@
 module Helper.S3
     ( uploadItem
     , uploadItems
-    , UploadDescription(..)
+    , Upload(..)
     ) where
 
 import Import
@@ -33,27 +33,27 @@ import System.FilePath.Posix
     ( takeExtension
     )
 
-data UploadDescription = UploadDescription
+data Upload = Upload
     { uploadSource :: Source AWS ByteString
     , uploadContentType :: Text
     , uploadFileName :: Text
     }
 
-uploadItems :: [UploadDescription] -> Handler [(UploadDescription, Text)]
+uploadItems :: [Upload] -> Handler [(Upload, Text)]
 uploadItems = mapM uploadItem
 
-uploadItem :: UploadDescription -> Handler (UploadDescription, Text)
-uploadItem desc = do
+uploadItem :: Upload -> Handler (Upload, Text)
+uploadItem upload = do
     uuid <- liftIO $ toString <$> nextRandom
-    let path = pack $ uuid <.> (fileExtension $ uploadFileName desc)
-    void $ performUpload path desc
+    let path = pack $ uuid <.> (fileExtension $ uploadFileName upload)
+    void $ performUpload path upload
     url <- generateURL path
-    return (desc, url)
+    return (upload, url)
 
-performUpload :: Text -> UploadDescription -> Handler CompleteMultipartUploadResponse
-performUpload path desc = runS3 path $ \b k -> do
-    uploadSource desc $$ streamUpload $
-        set cmuContentType (Just $ uploadContentType desc) $
+performUpload :: Text -> Upload -> Handler CompleteMultipartUploadResponse
+performUpload path upload = runS3 path $ \b k -> do
+    uploadSource upload $$ streamUpload $
+        set cmuContentType (Just $ uploadContentType upload) $
             createMultipartUpload b k
 
 generateURL :: Text -> Handler Text
