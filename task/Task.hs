@@ -23,11 +23,11 @@ taskParser = subparser importTweetCommand
 importTweetCommand :: Command Task
 importTweetCommand = command "import"
     $ info
-    ( importTweets <$> pathArgument )
-    ( progDesc "Import tweets into the database" )
+    ( importTweet <$> pathArgument )
+    ( progDesc "Import tweet into the database" )
 
-pathArgument :: Parser Text
-pathArgument = pack <$> argument str
+pathArgument :: Parser FilePath
+pathArgument = argument str
         ( metavar "PATH"
         <> help "Path to input file."
         )

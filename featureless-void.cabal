@@ -128,8 +128,16 @@ executable         task
                      , Task.TweetImport
 
     build-depends:     base
+                     , aeson
+                     , bytestring
+                     , directory
                      , featureless-void
+                     , filepath
+                     , mime-types
                      , optparse-applicative
+                     , text
+                     , yesod-core
+                     , yesod-markdown
 
     ghc-options:       -Wall -threaded -rtsopts -with-rtsopts=-N -O2
 
