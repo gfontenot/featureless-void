@@ -4,13 +4,13 @@ module Task.TweetImport
 
 import qualified Data.ByteString.Lazy as B
 import Data.Aeson
-import Yesod.Markdown
 import System.Directory (listDirectory)
 import System.FilePath.Posix (takeFileName)
 import Network.Mime (defaultMimeLookup)
 
 import Import
 import qualified Helper.S3 as S3
+import Markdown
 
 data Tweet = Tweet
     { tweetCreatedAt :: UTCTime
@@ -65,4 +65,4 @@ mimeType :: FilePath -> Text
 mimeType = decodeUtf8 . defaultMimeLookup . pack
 
 toScream :: Tweet -> Scream
-toScream t = Scream (Markdown $ tweetBody t) (tweetCreatedAt t) (Just $ tweetId t)
+toScream t = Scream (markdown $ tweetBody t) (tweetCreatedAt t) (Just $ tweetId t)

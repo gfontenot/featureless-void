@@ -24,6 +24,7 @@ library
                      Helper.Time
                      Import
                      Import.NoFoundation
+                     Markdown
                      Model
                      Query
                      Settings
@@ -107,6 +108,8 @@ library
                  , heroku-persistent
                  , uuid
                  , filepath
+                 , blaze-markup
+                 , pandoc
 
 executable         featureless-void
     if flag(library-only)

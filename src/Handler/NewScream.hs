@@ -4,7 +4,7 @@ module Handler.NewScream
     ) where
 
 import Import
-import Yesod.Markdown (Markdown, markdownField)
+import Markdown
 import qualified Helper.S3 as S3
 
 getNewScreamR :: Handler Html
