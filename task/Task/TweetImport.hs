@@ -4,7 +4,7 @@ module Task.TweetImport
 
 import qualified Data.ByteString.Lazy as B
 import Data.Aeson
-import System.Directory (listDirectory)
+import System.Directory (listDirectory, doesDirectoryExist)
 import System.FilePath.Posix (takeFileName)
 import Network.Mime (defaultMimeLookup)
 
@@ -43,8 +43,12 @@ uploadImages p sid = do
 imagesFrom :: FilePath -> IO [S3.Upload]
 imagesFrom p = do
     let photosPath = p </> "photos"
-    imagePaths <- fmap (photosPath </>) <$> listDirectory photosPath
-    return $ fmap createUpload imagePaths
+    exists <- doesDirectoryExist photosPath
+    case exists of
+      True -> do
+          imagePaths <- fmap (photosPath </>) <$> listDirectory photosPath
+          return $ fmap createUpload imagePaths
+      False -> return []
 
 createUpload :: FilePath -> S3.Upload
 createUpload p = S3.Upload
