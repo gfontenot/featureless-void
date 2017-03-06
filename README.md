@@ -4,11 +4,11 @@ A thing into which you can scream
 
 ## What the?
 
-This is the code that powers my personal microblog (soon to be at
-[micro.gordonfontenot.com]). It's inspired heavily by [Edward
-Loveall][edward-micro]'s personal microblog, as well as [Manton
-Reece][manton]'s ideas around indie microblogging. Once it launches, this will
-be hooked up to [micro.blog] as well.
+This is the code that powers [my personal
+microblog](https://micro.gordonfontenot.com). It's inspired heavily by [Edward
+Loveall][edward-micro]'s microblog, as well as [Manton Reece][manton]'s ideas
+around indie microblogging. Once it launches, this will be hooked up to
+[micro.blog] as well.
 
 [micro.gordonfontenot.com]: http://micro.gordonfontenot.com
 [edward-micro]: https://edwardloveall.com/microblog
