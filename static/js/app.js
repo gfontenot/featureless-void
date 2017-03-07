@@ -11,6 +11,8 @@ function truncateURLs() {
       this.innerText = displayTitle
         .replace(/https?:\/\/(w{3}.)?/g, '')
         .truncate(30)
+
+      $(this).addClass('nowrap')
     }
   })
 }

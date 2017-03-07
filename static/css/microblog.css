@@ -26,6 +26,10 @@
   padding-bottom: 15px;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .scream time {
   display: inline;
 }
