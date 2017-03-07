@@ -60,9 +60,9 @@ generateURL :: Text -> Handler Text
 generateURL path = do
     bucketName <- getBucketName
     return
-        $ "http://"
+        $ "https://s3.amazonaws.com/"
         <> bucketName
-        <> ".s3.amazonaws.com/"
+        <> "/"
         <> path
 
 getBucketName :: Handler Text
