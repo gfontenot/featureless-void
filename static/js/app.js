@@ -9,6 +9,7 @@ function truncateURLs() {
     displayTitle = this.innerText
     if (displayTitle.startsWith('http')) {
       this.innerText = displayTitle
+        .replace(/https?:\/\/(w{3}.)?/g, '')
         .truncate(30)
     }
   })
