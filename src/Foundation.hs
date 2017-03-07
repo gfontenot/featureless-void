@@ -32,18 +32,19 @@ type Form x = Html -> MForm (HandlerT App IO) (FormResult x, Widget)
 csrfTokenJs :: a -> Html
 csrfTokenJs = $(hamletFile "templates/csrf-token.hamlet")
 
+oneWeek :: Int
+oneWeek = 60 * 24 * 7
+
 instance Yesod App where
     approot = ApprootRequest $ \app req ->
         case appRoot $ appSettings app of
             Nothing -> getApprootText guessApproot app req
             Just root -> root
 
-    makeSessionBackend _ =
+    makeSessionBackend _ = sslOnlySessions $
         Just <$> envClientSessionBackend oneWeek "SESSION_KEY"
-      where
-        oneWeek = 60 * 24 * 7
 
-    yesodMiddleware = defaultYesodMiddleware . defaultCsrfMiddleware
+    yesodMiddleware = (sslOnlyMiddleware oneWeek) . defaultYesodMiddleware . defaultCsrfMiddleware
 
     defaultLayout widget = do
         mmsg <- getMessage
