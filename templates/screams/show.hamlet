@@ -4,9 +4,8 @@
     $forall Entity _ image <- images
       <img src="#{imageUrl image}" alt="#{imageFileName image}" />
   <div .meta>
-    $maybe tid <- screamTweetId scream
-      <div>
-        <a class="ext icon-twitter" alt="View on Twitter" href="https://twitter.com/gfontenot/status/#{tid}">
     <time datetime="#{show $ screamCreatedAt scream}">
       <a href=@{ScreamDetailR sid}>
         #{timestamp $ screamCreatedAt scream}
+    $maybe tid <- screamTweetId scream
+        &#8226; <a alt="View on Twitter" href="https://twitter.com/gfontenot/status/#{tid}">tw</a>

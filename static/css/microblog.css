@@ -34,14 +34,8 @@
   display: inline;
 }
 
-.scream time a {
+.meta, .meta a {
   border: none;
   color: #afafaf;
   font-size: 12px;
-}
-
-.scream .ext {
-  border: none;
-  color: #afafaf;
-  float: right;
 }

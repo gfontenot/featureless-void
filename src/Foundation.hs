@@ -52,7 +52,6 @@ instance Yesod App where
 
         pc <- widgetToPageContent $ do
             addStylesheet $ StaticR css_reset_css
-            addStylesheet $ StaticR css_fontello_css
             addStylesheet $ StaticR css_screen_css
             addStylesheet $ StaticR css_microblog_css
             addScriptRemote "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"
