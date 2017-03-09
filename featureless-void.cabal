@@ -111,6 +111,7 @@ library
                  , filepath
                  , blaze-markup
                  , pandoc
+                 , yesod-newsfeed
 
 executable         featureless-void
     if flag(library-only)
