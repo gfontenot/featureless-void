@@ -5,4 +5,4 @@ $forall (Entity sid scream, images) <- screams
     <pubDate>#{rssTimestamp $ screamCreatedAt scream}
     <guid isPermaLink="false">@{ScreamDetailR sid}
     <link>@{ScreamDetailR sid}
-    <author>@gfontenot
+    <dc:creator>Gordon Fontenot
