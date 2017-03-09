@@ -2,7 +2,7 @@
   <article>
     #{screamBody scream}
     $forall Entity _ image <- images
-      <img src="#{imageUrl image}" alt="#{imageFileName image}">
+      <img src="#{imageUrl image}" alt="#{imageFileName image}" />
   <div .meta>
     <time datetime="#{show $ screamCreatedAt scream}">
       <a href=@{ScreamDetailR sid}>
