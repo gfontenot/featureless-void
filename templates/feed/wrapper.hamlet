@@ -4,7 +4,7 @@ $newline never
   <channel>
     <title>micro.gordonfontenot.com
     <description>Gordon Fontenot's microblog
-    <link>#{render HomeR}
-    <atom:link href="#{render FeedR}" rel="self" type="application/rss+xml">
+    <link>@{HomeR}
+    <atom:link href="@{FeedR}" rel="self" type="application/rss+xml">
 
     ^{pageBody pc}

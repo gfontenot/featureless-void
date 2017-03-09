@@ -19,7 +19,6 @@ feedFromScreams screams = feedLayout $(widgetFile "feed/main")
 
 feedLayout :: Widget -> Handler Html
 feedLayout widget = do
-    render <- getUrlRender
     pc <- widgetToPageContent widget
     withUrlRenderer $(hamletFile "templates/feed/wrapper.hamlet")
 

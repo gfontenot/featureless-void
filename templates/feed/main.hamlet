@@ -3,6 +3,6 @@ $forall (Entity sid scream, images) <- screams
     <title>
     <description><![CDATA[^{markupDescription scream images}]]>
     <pubDate>#{rssTimestamp $ screamCreatedAt scream}
-    <guid isPermaLink="false">#{render $ ScreamDetailR sid}
-    <link>#{render $ ScreamDetailR sid}
+    <guid isPermaLink="false">@{ScreamDetailR sid}
+    <link>@{ScreamDetailR sid}
     <author>@gfontenot
