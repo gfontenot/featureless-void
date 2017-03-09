@@ -1,0 +1,10 @@
+$newline never
+\<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>micro.gordonfontenot.com
+    <description>Gordon Fontenot's microblog
+    <link>#{render HomeR}
+    <atom:link href="#{render FeedR}" rel="self" type="application/rss+xml">
+
+    ^{pageBody pc}

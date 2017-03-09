@@ -16,6 +16,7 @@ library
     exposed-modules: Application
                      Foundation
                      Handler.Common
+                     Handler.Feed
                      Handler.Home
                      Handler.NewScream
                      Handler.ScreamDetail

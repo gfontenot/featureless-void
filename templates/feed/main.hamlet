@@ -1,0 +1,8 @@
+$forall (Entity sid scream, images) <- screams
+  <item>
+    <title>
+    <description><![CDATA[^{markupDescription scream images}]]>
+    <pubDate>#{rssTimestamp $ screamCreatedAt scream}
+    <guid isPermaLink="false">#{render $ ScreamDetailR sid}
+    <link>#{render $ ScreamDetailR sid}
+    <author>@gfontenot

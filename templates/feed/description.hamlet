@@ -1,0 +1,4 @@
+$newline never
+#{screamBody scream}
+$forall Entity _ image <- images
+  <img src="#{imageUrl image}" alt="#{imageFileName image}" />

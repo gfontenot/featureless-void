@@ -1,9 +1,10 @@
 module Query
-    ( fetchImagesForScream
+    ( fetch404
+    , fetchImagesForScream
     , fetchImagesForScreams
-    , paginatedScreams
-    , fetch404
     , joinOneToMany
+    , paginatedScreams
+    , recentScreams
     , screamImage
     ) where
 
@@ -30,6 +31,11 @@ paginatedScreams c widget =
     c                                     -- number of items per page
     []                                    -- filters
     [Desc ScreamCreatedAt, Desc ScreamId] -- sort descriptors
+
+recentScreams :: ReaderT SqlBackend Handler [Entity Scream]
+recentScreams = selectList
+    []
+    [Desc ScreamCreatedAt, Desc ScreamId, LimitTo 20]
 
 fetch404 :: ( PersistEntityBackend record ~ BaseBackend backend
             , PersistEntity record

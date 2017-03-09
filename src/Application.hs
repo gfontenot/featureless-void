@@ -54,6 +54,7 @@ import System.Log.FastLogger
 import LoadEnv (loadEnv)
 
 import Handler.Common
+import Handler.Feed
 import Handler.Home
 import Handler.NewScream
 import Handler.ScreamDetail
