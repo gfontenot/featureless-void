@@ -15,10 +15,12 @@ getFeedR = do
     feedFromScreams $ map (joinOneToMany screamImage images) screams'
 
 feedFromScreams :: [(Entity Scream, [Entity Image])] -> Handler Html
-feedFromScreams screams = do
+feedFromScreams screams = feedLayout $(widgetFile "feed/main")
+
+feedLayout :: Widget -> Handler Html
+feedLayout widget = do
     render <- getUrlRender
-    pc <- widgetToPageContent $ do
-        $(widgetFile "feed/main")
+    pc <- widgetToPageContent widget
     withUrlRenderer $(hamletFile "templates/feed/wrapper.hamlet")
 
 markupDescription :: Scream -> [Entity Image] -> Widget
