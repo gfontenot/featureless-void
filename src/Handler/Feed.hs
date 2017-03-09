@@ -12,10 +12,10 @@ getFeedR :: Handler Html
 getFeedR = do
     screams' <- runDB $ recentScreams
     images <- runDB $ fetchImagesForScreams screams'
-    feedFromScreams $ map (joinOneToMany screamImage images) screams'
+    generateFeed $ map (joinOneToMany screamImage images) screams'
 
-feedFromScreams :: [(Entity Scream, [Entity Image])] -> Handler Html
-feedFromScreams screams = feedLayout $(widgetFile "feed/main")
+generateFeed :: [(Entity Scream, [Entity Image])] -> Handler Html
+generateFeed screams = feedLayout $(widgetFile "feed/main")
 
 feedLayout :: Widget -> Handler Html
 feedLayout widget = do
