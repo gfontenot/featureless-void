@@ -4,7 +4,17 @@ import ClassyPrelude.Yesod
 import qualified Yesod.Markdown as Y
 import Database.Persist.Sql (PersistFieldSql(..))
 import Text.Blaze (ToMarkup (toMarkup))
+import Text.Blaze.Renderer.String (renderMarkup)
 import Text.Pandoc
+import Text.XML.HXT.Core
+    ( (//>)
+    , (>>.)
+    , (>>>)
+    , arr
+    , getText
+    , hread
+    , runLA
+    )
 
 newtype Markdown = Markdown Y.Markdown
     deriving (Eq, Ord, Show, Read, PersistField, IsString, Monoid)
@@ -15,6 +25,15 @@ instance PersistFieldSql Markdown where
 instance ToMarkup Markdown where
     -- | Sanitized by default
     toMarkup = handleError . markdownToHtml
+
+strippedText :: ToMarkup a => a -> Text
+strippedText = pack . runLA
+    (   arr toHtml
+    >>> arr renderMarkup
+    >>> hread
+    //> getText
+    >>. concat
+    )
 
 markdown :: Text -> Markdown
 markdown = Markdown . Y.Markdown
