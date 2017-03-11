@@ -1,5 +1,6 @@
 module Handler.Home where
 
+import Text.Hamlet (hamletFile)
 import Yesod.Paginator
     ( PageWidget
     , PageWidgetConfig(..)
@@ -18,6 +19,7 @@ getHomeR = do
     images <- runDB $ fetchImagesForScreams screams'
     let screams = map (joinOneToMany screamImage images) screams'
     defaultLayout $ do
+        openGraphHead
         $(widgetFile "home/index")
 
 simpleWidget :: PageWidget App
@@ -25,3 +27,7 @@ simpleWidget = simplePaginationWidget $ defaultPageWidgetConfig
     { prevText     = "Newer"
     , nextText     = "Older"
     }
+
+openGraphHead :: Widget
+openGraphHead =
+        toWidgetHead $(hamletFile "templates/open-graph/home.hamlet")
