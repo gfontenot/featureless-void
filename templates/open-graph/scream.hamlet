@@ -1,0 +1,10 @@
+<meta property="og:title" content="#{strippedText $ screamBody scream}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="@{ScreamDetailR sid}">
+<meta property="og:site_name" content="micro.gordonfontenot.com">
+<meta property="fb:app_id" content="1476632935702492">
+$if null images
+  <meta property="og:image" content="http://1.gravatar.com/avatar/ab674849a65ebd556c3d88bff94215ed?s=400">
+$else
+  $forall Entity _ image <- images
+    <meta property="og:image" content="#{imageUrl image}">
