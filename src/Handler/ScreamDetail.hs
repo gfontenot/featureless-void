@@ -15,8 +15,11 @@ getScreamDetailR sid = do
     scream <- runDB $ fetch404 sid
     images <- runDB $ fetchImagesForScream scream
     defaultLayout $ do
+        setTitle $ screamTitle scream
         openGraphHead (scream, images)
         singleScream (scream, images)
+  where
+    screamTitle = toHtml . strippedText . screamBody . entityVal
 
 singleScream :: (Entity Scream, [Entity Image]) -> Widget
 singleScream (Entity sid scream, images) = do

@@ -19,6 +19,7 @@ getHomeR = do
     images <- runDB $ fetchImagesForScreams screams'
     let screams = map (joinOneToMany screamImage images) screams'
     defaultLayout $ do
+        setTitle "micro.gordonfontenot.com"
         openGraphHead
         $(widgetFile "home/index")
 
