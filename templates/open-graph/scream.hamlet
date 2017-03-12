@@ -1,4 +1,5 @@
 <meta property="og:title" content="#{strippedText $ screamBody scream}">
+<meta property="og:description" content="Gordon Fontenot's microblog">
 <meta property="og:type" content="article">
 <meta property="og:url" content="@{ScreamDetailR sid}">
 <meta property="og:site_name" content="micro.gordonfontenot.com">
