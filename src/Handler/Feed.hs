@@ -8,6 +8,7 @@ import Text.Hamlet (hamletFile)
 import Import
 import Query
 import Helper
+import Markdown (strippedText)
 
 getFeedR :: Handler RepRss
 getFeedR = do
