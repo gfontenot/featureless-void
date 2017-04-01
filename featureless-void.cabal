@@ -23,6 +23,7 @@ library
                      Helper
                      Helper.S3
                      Helper.Time
+                     Helper.Twitter
                      Helper.Twitter.Auth
                      Helper.Twitter.Base
                      Helper.Twitter.Endpoints
