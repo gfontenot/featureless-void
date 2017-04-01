@@ -25,6 +25,7 @@ library
                      Helper.Time
                      Helper.Twitter.Auth
                      Helper.Twitter.Base
+                     Helper.Twitter.Endpoints
                      Helper.Twitter.Types
                      Import
                      Import.NoFoundation
