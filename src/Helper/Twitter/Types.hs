@@ -1,5 +1,6 @@
 module Helper.Twitter.Types
-    ( Credentials(..)
+    ( Endpoint(..)
+    , Credentials(..)
     ) where
 
 import ClassyPrelude.Yesod
@@ -7,6 +8,12 @@ import Data.Aeson
     ( FromJSON
     , withObject
     )
+
+data Endpoint = Endpoint
+    { endpointPath :: String
+    , endpointMethod :: Method
+    , endpointBody :: SimpleQuery
+    }
 
 data Credentials = Credentials
     { twitterConsumerKey :: Text
