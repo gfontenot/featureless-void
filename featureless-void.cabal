@@ -23,6 +23,7 @@ library
                      Helper
                      Helper.S3
                      Helper.Time
+                     Helper.Twitter.Types
                      Import
                      Import.NoFoundation
                      Markdown
@@ -113,6 +114,7 @@ library
                  , pandoc
                  , yesod-newsfeed
                  , hxt
+                 , authenticate-oauth
 
 executable         featureless-void
     if flag(library-only)

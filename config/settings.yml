@@ -7,3 +7,9 @@ s3-bucket:      "_env:S3_BUCKET:images.micro.gordonfontenot.com.dev"
 
 database-url: "_env:DATABASE_URL:postgres://featureless_void:featureless_void@localhost:5432/featureless_void_dev"
 database-pool-size: "_env:DATABASE_POOL_SIZE:10"
+
+twitter:
+  consumer-key: "_env:TWITTER_CONSUMER_KEY:fake_consumer_key"
+  consumer-secret: "_env:TWITTER_CONSUMER_SECRET:fake_consumer_secret"
+  access-token: "_env:TWITTER_ACCESS_TOKEN:fake_access_token"
+  access-token-secret: "_env:TWITTER_ACCESS_TOKEN_SECRET:fake_access_token_secret"

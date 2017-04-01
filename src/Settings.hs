@@ -32,6 +32,8 @@ import Yesod.Default.Util
     (widgetFileNoReload)
 #endif
 
+import qualified Helper.Twitter.Types as Twitter
+
 data AppSettings = AppSettings
     { appStaticDir              :: String
     , appDatabaseConf           :: PostgresConf
@@ -43,6 +45,7 @@ data AppSettings = AppSettings
     , appMutableStatic          :: Bool
     , appSkipCombining          :: Bool
     , appS3Bucket               :: Text
+    , appTwitterCredentials     :: Twitter.Credentials
     }
 
 instance FromJSON AppSettings where
@@ -65,6 +68,7 @@ instance FromJSON AppSettings where
         appMutableStatic          <- o .:? "mutable-static"   .!= defaultDev
         appSkipCombining          <- o .:? "skip-combining"   .!= defaultDev
         appS3Bucket               <- o .: "s3-bucket"
+        appTwitterCredentials     <- o .: "twitter"
 
         return AppSettings {..}
 
