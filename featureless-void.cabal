@@ -23,6 +23,7 @@ library
                      Helper
                      Helper.S3
                      Helper.Time
+                     Helper.Twitter.Auth
                      Helper.Twitter.Types
                      Import
                      Import.NoFoundation
