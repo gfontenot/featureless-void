@@ -7,6 +7,15 @@ import Import
 import Markdown
 import qualified Helper.S3 as S3
 
+import Helper.Twitter (postTweet)
+import Helper.Twitter.Types (Tweet(..))
+
+data ScreamFields = ScreamFields
+    { bodyField :: Markdown
+    , imageField :: Maybe FileInfo
+    , twitterCrosspostField :: Bool
+    }
+
 getNewScreamR :: Handler Html
 getNewScreamR = do
     (form, enctype) <- generateFormPost screamForm
@@ -17,17 +26,21 @@ postNewScreamR = do
     ((res, form), enctype) <- runFormPost screamForm
     case res of
       FormSuccess fields -> do
-          scream <- parseScream fields
+          tid <- twitterCrosspostIfNecessary fields
+          scream <- parseScream fields tid
           sid <- runDB $ insert scream
           images <- parseImages fields sid
           void $ runDB $ insertMany images
           redirect HomeR
       _ -> renderNewScream form enctype
 
-data ScreamFields = ScreamFields
-    { bodyField :: Markdown
-    , imageField :: Maybe FileInfo
-    }
+twitterCrosspostIfNecessary :: ScreamFields -> Handler (Maybe Text)
+twitterCrosspostIfNecessary fields
+    | twitterCrosspostField fields = do
+        let status = strippedText . bodyField $ fields
+        tweet <- postTweet status
+        return $ Just $ tweetId tweet
+    | otherwise = return Nothing
 
 parseImages :: ScreamFields -> ScreamId -> Handler [Image]
 parseImages f sid = do
@@ -36,13 +49,13 @@ parseImages f sid = do
   where
     createImage (desc, url) = Image sid (S3.uploadFileName desc) url
 
-parseScream :: ScreamFields -> Handler Scream
-parseScream f = do
+parseScream :: ScreamFields -> Maybe Text -> Handler Scream
+parseScream f tid = do
     now <- liftIO getCurrentTime
     return Scream
         { screamBody = bodyField f
         , screamCreatedAt = now
-        , screamTweetId = Nothing
+        , screamTweetId = tid
         }
 
 screamForm :: Form ScreamFields
@@ -50,6 +63,7 @@ screamForm = renderDivs $
     ScreamFields
         <$> areq markdownField ("Body" { fsId = Just "scream-body" }) Nothing
         <*> fileAFormOpt "Image"
+        <*> areq checkBoxField "Crosspost to Twitter" (Just True)
 
 renderNewScream :: Widget -> Enctype -> Handler Html
 renderNewScream form enctype = defaultLayout $ do
