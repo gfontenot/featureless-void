@@ -1,6 +1,7 @@
 module Helper.Twitter.Types
     ( Endpoint(..)
     , Credentials(..)
+    , Tweet(..)
     ) where
 
 import ClassyPrelude.Yesod
@@ -8,6 +9,16 @@ import Data.Aeson
     ( FromJSON
     , withObject
     )
+
+data Tweet = Tweet
+    { tweetId :: Text
+    } deriving (Eq, Show)
+
+instance FromJSON Tweet where
+    parseJSON = withObject "tweet" $ \o -> do
+        tweetId <- o .: "id_str"
+
+        return Tweet {..}
 
 data Endpoint = Endpoint
     { endpointPath :: String
