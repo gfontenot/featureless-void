@@ -1,5 +1,6 @@
 module Helper.Twitter.Endpoints
     ( updateStatusEndpoint
+    , uploadMediaEndpoint
     ) where
 
 import Import
@@ -15,3 +16,10 @@ updateStatusEndpoint t = Endpoint
     , endpointBody = [(BS.pack "status", encodeUtf8 t)]
     }
 
+uploadMediaEndpoint :: ByteString -> Endpoint
+uploadMediaEndpoint fileData = Endpoint
+    { endpointDomain = "upload"
+    , endpointPath = "media/upload.json"
+    , endpointType = MultipartRequest
+    , endpointBody = [(BS.pack "media", fileData)]
+    }

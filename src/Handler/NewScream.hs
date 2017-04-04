@@ -37,6 +37,7 @@ postNewScreamR = do
 twitterCrosspostIfNecessary :: ScreamFields -> Handler (Maybe Text)
 twitterCrosspostIfNecessary fields
     | twitterCrosspostField fields = do
+        images <- mapM Twitter.uploadImages $ maybeToList $ imageField fields
         let status = strippedText . bodyField $ fields
         tweet <- Twitter.postTweet status
         return $ Just $ tweetId tweet

@@ -2,6 +2,7 @@ module Helper.Twitter.Types
     ( Endpoint(..)
     , Credentials(..)
     , Tweet(..)
+    , Media(..)
     , RequestType(..)
     ) where
 
@@ -20,6 +21,16 @@ instance FromJSON Tweet where
         tweetId <- o .: "id_str"
 
         return Tweet {..}
+
+data Media = Media
+    { mediaId :: Text
+    } deriving (Eq, Show)
+
+instance FromJSON Media where
+    parseJSON = withObject "media" $ \o -> do
+        mediaId <- o .: "media_id_string"
+
+        return Media {..}
 
 data RequestType = POSTRequest | MultipartRequest
     deriving (Eq, Show)
