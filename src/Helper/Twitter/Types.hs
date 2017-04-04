@@ -21,7 +21,8 @@ instance FromJSON Tweet where
         return Tweet {..}
 
 data Endpoint = Endpoint
-    { endpointPath :: String
+    { endpointDomain :: String
+    , endpointPath :: String
     , endpointMethod :: Method
     , endpointBody :: SimpleQuery
     }

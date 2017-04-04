@@ -11,11 +11,11 @@ import Helper.Twitter.Types
 
 makeRequest :: Endpoint -> Handler Request
 makeRequest e = do
-    req <- parseRequest $ url $ endpointPath e
+    req <- parseRequest $ url (endpointDomain e) (endpointPath e)
     signed $ secure $ addParams e $ req { method = endpointMethod e }
   where
-    url :: String -> String
-    url path = "https://api.twitter.com/1.1" </> path
+    url :: String -> String -> String
+    url domain path = "https://" <> domain <> ".twitter.com/1.1" </> path
 
     signed :: Request -> Handler Request
     signed req = do
@@ -27,6 +27,6 @@ makeRequest e = do
     secure = setRequestSecure True
 
     addParams :: Endpoint -> Request -> Request
-    addParams (Endpoint _ m b)
+    addParams (Endpoint _ _ m b)
       | m == "POST" = urlEncodedBody b
       | otherwise   = \r -> r { queryString = renderSimpleQuery False b }

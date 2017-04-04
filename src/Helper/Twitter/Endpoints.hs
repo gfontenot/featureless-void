@@ -9,7 +9,8 @@ import qualified Data.ByteString.Char8 as BS
 
 updateStatusEndpoint :: Text -> Endpoint
 updateStatusEndpoint t = Endpoint
-    { endpointPath = "statuses/update.json"
+    { endpointDomain = "api"
+    , endpointPath = "statuses/update.json"
     , endpointMethod = "POST"
     , endpointBody = [(BS.pack "status", encodeUtf8 t)]
     }
