@@ -119,6 +119,8 @@ library
                  , yesod-newsfeed
                  , hxt
                  , authenticate-oauth
+                 , http-client
+                 , conduit-extra
 
 executable         featureless-void
     if flag(library-only)

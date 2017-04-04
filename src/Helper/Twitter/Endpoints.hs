@@ -11,7 +11,7 @@ updateStatusEndpoint :: Text -> Endpoint
 updateStatusEndpoint t = Endpoint
     { endpointDomain = "api"
     , endpointPath = "statuses/update.json"
-    , endpointMethod = "POST"
+    , endpointType = POSTRequest
     , endpointBody = [(BS.pack "status", encodeUtf8 t)]
     }
 

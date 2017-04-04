@@ -2,6 +2,7 @@ module Helper.Twitter.Types
     ( Endpoint(..)
     , Credentials(..)
     , Tweet(..)
+    , RequestType(..)
     ) where
 
 import ClassyPrelude.Yesod
@@ -20,10 +21,13 @@ instance FromJSON Tweet where
 
         return Tweet {..}
 
+data RequestType = POSTRequest | MultipartRequest
+    deriving (Eq, Show)
+
 data Endpoint = Endpoint
     { endpointDomain :: String
     , endpointPath :: String
-    , endpointMethod :: Method
+    , endpointType :: RequestType
     , endpointBody :: SimpleQuery
     }
 
