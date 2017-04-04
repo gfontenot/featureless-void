@@ -1,6 +1,6 @@
 module Helper.Twitter
     ( postTweet
-    , uploadImages
+    , uploadImage
     ) where
 
 import Network.HTTP.Simple (httpJSON)
@@ -17,8 +17,8 @@ postTweet status images = do
     req <- makeRequest endpoint
     responseBody <$> httpJSON req
 
-uploadImages :: FileInfo -> Handler Media
-uploadImages info = do
+uploadImage :: FileInfo -> Handler Media
+uploadImage info = do
     bytes <- fileSource info $$ sinkLbs
     let endpoint = uploadMediaEndpoint $ toStrict bytes
     req <- makeRequest endpoint
