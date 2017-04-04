@@ -7,7 +7,7 @@ import Import
 import Markdown
 import qualified Helper.S3 as S3
 
-import Helper.Twitter (postTweet)
+import qualified Helper.Twitter as Twitter
 import Helper.Twitter.Types (Tweet(..))
 
 data ScreamFields = ScreamFields
@@ -38,7 +38,7 @@ twitterCrosspostIfNecessary :: ScreamFields -> Handler (Maybe Text)
 twitterCrosspostIfNecessary fields
     | twitterCrosspostField fields = do
         let status = strippedText . bodyField $ fields
-        tweet <- postTweet status
+        tweet <- Twitter.postTweet status
         return $ Just $ tweetId tweet
     | otherwise = return Nothing
 
