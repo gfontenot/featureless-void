@@ -13,7 +13,7 @@ import Helper.Twitter.Types
 
 postTweet :: Text -> [Media] -> Handler Tweet
 postTweet status images = do
-    let endpoint = updateStatusEndpoint status $ map mediaId images
+    let endpoint = updateStatusEndpoint status images
     req <- makeRequest endpoint
     responseBody <$> httpJSON req
 

@@ -6,15 +6,18 @@ module Helper.Twitter.Endpoints
 import Import
 import Helper.Twitter.Types
 
-updateStatusEndpoint :: Text -> [Text] -> Endpoint
+updateStatusEndpoint :: Text -> [Media] -> Endpoint
 updateStatusEndpoint status images = Endpoint
     { endpointDomain = "api"
     , endpointPath = "statuses/update.json"
     , endpointBody = PostBody
         [ ("status", status)
-        , ("media_ids",  intercalate "," images)
+        , ("media_ids",  joinIds images)
         ]
     }
+  where
+    joinIds :: [Media] -> Text
+    joinIds = (intercalate ",") . (map mediaId)
 
 uploadMediaEndpoint :: ByteString -> Endpoint
 uploadMediaEndpoint fileData = Endpoint
