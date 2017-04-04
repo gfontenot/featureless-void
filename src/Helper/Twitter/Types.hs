@@ -3,7 +3,7 @@ module Helper.Twitter.Types
     , Credentials(..)
     , Tweet(..)
     , Media(..)
-    , RequestType(..)
+    , Body(..)
     ) where
 
 import ClassyPrelude.Yesod
@@ -32,14 +32,12 @@ instance FromJSON Media where
 
         return Media {..}
 
-data RequestType = POSTRequest | MultipartRequest
-    deriving (Eq, Show)
+data Body = PostBody [(Text, Text)] | MultipartBody [(Text, ByteString)]
 
 data Endpoint = Endpoint
     { endpointDomain :: String
     , endpointPath :: String
-    , endpointType :: RequestType
-    , endpointBody :: SimpleQuery
+    , endpointBody :: Body
     }
 
 data Credentials = Credentials
@@ -57,4 +55,3 @@ instance FromJSON Credentials where
         twitterAccessTokenSecret <- o .: "access-token-secret"
 
         return Credentials {..}
-

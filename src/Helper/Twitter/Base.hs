@@ -12,7 +12,7 @@ import Helper.Twitter.Types
 
 makeRequest :: Endpoint -> Handler Request
 makeRequest e = parseRequest (url (endpointDomain e) (endpointPath e))
-    >>= addParams e
+    >>= addBody (endpointBody e)
     >>= forceSecure
     >>= signed
 
@@ -28,12 +28,15 @@ signed req = do
 forceSecure :: Request -> Handler Request
 forceSecure = return . setRequestSecure True
 
-addParams :: Endpoint -> Request -> Handler Request
-addParams (Endpoint _ _ POSTRequest b) = return . urlEncodedBody b
-addParams (Endpoint _ _ MultipartRequest b) = formDataBody (formBody b)
+addBody :: Body -> Request -> Handler Request
+addBody (PostBody b) = return . encodedBody b
+addBody (MultipartBody b) = formDataBody (formBody b)
 
-formBody :: SimpleQuery -> [Part]
-formBody b = map queryToPart b
+encodedBody :: [(Text, Text)] -> Request -> Request
+encodedBody = urlEncodedBody . map toQueryItem
   where
-    queryToPart :: SimpleQueryItem -> Part
-    queryToPart (k, v) = partBS (decodeUtf8 k) v
+    toQueryItem :: (Text, Text) -> SimpleQueryItem
+    toQueryItem (k, v) = (encodeUtf8 k, encodeUtf8 v)
+
+formBody :: [(Text, ByteString)] -> [Part]
+formBody = map (uncurry partBS)
