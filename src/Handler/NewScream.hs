@@ -39,7 +39,7 @@ twitterCrosspostIfNecessary fields
     | twitterCrosspostField fields = do
         images <- mapM Twitter.uploadImages $ maybeToList $ imageField fields
         let status = strippedText . bodyField $ fields
-        tweet <- Twitter.postTweet status
+        tweet <- Twitter.postTweet status images
         return $ Just $ tweetId tweet
     | otherwise = return Nothing
 

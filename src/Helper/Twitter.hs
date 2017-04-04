@@ -11,9 +11,9 @@ import Helper.Twitter.Base
 import Helper.Twitter.Endpoints
 import Helper.Twitter.Types
 
-postTweet :: Text -> Handler Tweet
-postTweet status = do
-    let endpoint = updateStatusEndpoint status
+postTweet :: Text -> [Media] -> Handler Tweet
+postTweet status images = do
+    let endpoint = updateStatusEndpoint status $ map mediaId images
     req <- makeRequest endpoint
     responseBody <$> httpJSON req
 
