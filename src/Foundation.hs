@@ -36,16 +36,25 @@ csrfTokenJs = $(hamletFile "templates/csrf-token.hamlet")
 oneWeek :: Int
 oneWeek = 60 * 24 * 7
 
+whenSSL :: AppSettings -> (a -> a) -> (a -> a)
+whenSSL settings f = if appForceSSL settings then f else id
+
 instance Yesod App where
     approot = ApprootRequest $ \app req ->
         case appRoot $ appSettings app of
             Nothing -> getApprootText guessApproot app req
             Just root -> root
 
-    makeSessionBackend _ = sslOnlySessions $
+    makeSessionBackend app = whenSSL (appSettings app) sslOnlySessions $
         Just <$> envClientSessionBackend oneWeek "SESSION_KEY"
 
-    yesodMiddleware = (sslOnlyMiddleware oneWeek) . defaultYesodMiddleware . defaultCsrfMiddleware
+    yesodMiddleware handler = do
+        settings <- appSettings <$> getYesod
+
+        defaultCsrfMiddleware
+            $ defaultYesodMiddleware
+            $ whenSSL settings ( sslOnlyMiddleware oneWeek )
+            $ handler
 
     defaultLayout widget = do
         mmsg <- getMessage

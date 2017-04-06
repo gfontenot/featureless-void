@@ -1,6 +1,7 @@
 static-dir:     "_env:STATIC_DIR:static"
 host:           "_env:HOST:*4"
 port:           "_env:PORT:3000"
+force-ssl:      "_env:FORCE_SSL:false"
 ip-from-header: "_env:IP_FROM_HEADER:false"
 log-level:      "_env:LOG_LEVEL:info"
 s3-bucket:      "_env:S3_BUCKET:images.micro.gordonfontenot.com.dev"

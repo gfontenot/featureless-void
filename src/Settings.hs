@@ -40,6 +40,7 @@ data AppSettings = AppSettings
     , appRoot                   :: Maybe Text
     , appHost                   :: HostPreference
     , appPort                   :: Int
+    , appForceSSL               :: Bool
     , appIpFromHeader           :: Bool
     , appLogLevel               :: LogLevel
     , appMutableStatic          :: Bool
@@ -63,6 +64,7 @@ instance FromJSON AppSettings where
         appRoot                   <- o .:? "approot"
         appHost                   <- fromString <$> o .: "host"
         appPort                   <- o .: "port"
+        appForceSSL               <- o .: "force-ssl"
         appIpFromHeader           <- o .: "ip-from-header"
         appLogLevel               <- parseLogLevel <$> o .: "log-level"
         appMutableStatic          <- o .:? "mutable-static"   .!= defaultDev
