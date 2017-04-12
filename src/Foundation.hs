@@ -9,7 +9,7 @@ import Text.Hamlet (hamletFile)
 import Text.Jasmine (minifym)
 
 import Yesod.Auth.Message (AuthMessage(..))
-import Yesod.Auth.HashDB (authHashDB)
+import Yesod.Auth.HashDB (authHashDBWithForm)
 import Yesod.RssFeed (rssLink)
 
 import Yesod.Default.Util (addStaticContentExternal)
@@ -114,7 +114,7 @@ instance YesodAuth App where
 
     loginDest _ = NewScreamR
     logoutDest _ = HomeR
-    authPlugins _ = [authHashDB (Just . UniqueUser)]
+    authPlugins _ = [authHashDBWithForm loginForm (Just . UniqueUser)]
 
     authenticate creds = runDB $ do
         u <- getBy $ UniqueUser $ credsIdent creds
@@ -123,6 +123,12 @@ instance YesodAuth App where
             Nothing -> UserError Email
 
     authHttpManager = getHttpManager
+
+loginForm :: Route App -> Widget
+loginForm action = do
+    request <- getRequest
+    let mtok = reqToken request
+    $(whamletFile "templates/login.hamlet")
 
 isAuthenticated :: Handler AuthResult
 isAuthenticated = do
