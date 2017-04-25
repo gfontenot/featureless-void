@@ -7,6 +7,9 @@ $doctype 5
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
+    <!-- Micro.blog -->
+    <link href="https://micro.blog/gfontenot" rel="me">
+
     ^{pageHead pc}
 
   <body>
