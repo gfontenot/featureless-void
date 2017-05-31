@@ -1,4 +1,4 @@
 $newline never
-#{screamBody scream}
-$forall Entity _ image <- images
+#{itemBody item}
+$forall image <- itemImages item
   <img src="#{imageUrl image}" alt="#{imageFileName image}" />

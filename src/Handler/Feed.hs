@@ -8,16 +8,36 @@ import Text.Hamlet (hamletFile)
 import Import hiding (feedTitle, feedDescription)
 import Query
 import Helper
-import Markdown (strippedText)
+import Markdown (Markdown, strippedText)
+
+data FeedItem = FeedItem
+    { feedItemScream :: Entity Scream
+    , feedItemImages :: [Entity Image]
+    }
+
+createItem :: (Entity Scream, [Entity Image]) -> FeedItem
+createItem = uncurry FeedItem
+
+itemId :: FeedItem -> ScreamId
+itemId = entityKey . feedItemScream
+
+itemBody :: FeedItem -> Markdown
+itemBody = screamBody . entityVal . feedItemScream
+
+itemCreatedAt :: FeedItem -> UTCTime
+itemCreatedAt = screamCreatedAt . entityVal . feedItemScream
+
+itemImages :: FeedItem -> [Image]
+itemImages = (map entityVal) . feedItemImages
 
 getXmlFeedR :: Handler RepRss
 getXmlFeedR = feedItems >>= generateFeed
   where
-    generateFeed :: [(Entity Scream, [Entity Image])] -> Handler RepRss
-    generateFeed screams = toRss <$> feedLayout $(widgetFile "feed/main")
+    generateFeed :: [FeedItem] -> Handler RepRss
+    generateFeed items = toRss <$> feedLayout $(widgetFile "feed/main")
 
-    markupDescription :: Scream -> [Entity Image] -> Widget
-    markupDescription scream images =
+    markupDescription :: FeedItem -> Widget
+    markupDescription item =
         $(widgetFile "feed/description")
 
     feedLayout :: Widget -> Handler Html
@@ -28,11 +48,11 @@ getXmlFeedR = feedItems >>= generateFeed
     toRss :: ToContent a => a -> RepRss
     toRss = RepRss . toContent
 
-feedItems :: Handler [(Entity Scream, [Entity Image])]
+feedItems :: Handler [FeedItem]
 feedItems = do
     screams <- runDB $ recentScreams
     images <- runDB $ fetchImagesForScreams screams
-    return $ map (joinOneToMany screamImage images) screams
+    return $ map (createItem . (joinOneToMany screamImage images)) screams
 
 feedTitle :: Text
 feedTitle = "micro.gordonfontenot.com"
