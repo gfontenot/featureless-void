@@ -5,8 +5,8 @@
   xmlns:dc="http://purl.org/dc/elements/1.1/"
 >
   <channel>
-    <title>micro.gordonfontenot.com
-    <description>Gordon Fontenot's microblog
+    <title>#{feedTitle}
+    <description>#{feedDescription}
     <link>@{HomeR}
     <atom:link href="@{XmlFeedR}" rel="self" type="application/rss+xml">
 

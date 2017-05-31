@@ -5,7 +5,7 @@ module Handler.Feed
 import Yesod.RssFeed (RepRss(..))
 import Text.Hamlet (hamletFile)
 
-import Import
+import Import hiding (feedTitle, feedDescription)
 import Query
 import Helper
 import Markdown (strippedText)
@@ -33,3 +33,9 @@ feedItems = do
     screams <- runDB $ recentScreams
     images <- runDB $ fetchImagesForScreams screams
     return $ map (joinOneToMany screamImage images) screams
+
+feedTitle :: Text
+feedTitle = "micro.gordonfontenot.com"
+
+feedDescription :: Text
+feedDescription = "Gordon Fontenot's microblog"
