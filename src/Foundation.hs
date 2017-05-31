@@ -65,7 +65,7 @@ instance Yesod App where
             addStylesheet $ StaticR css_microblog_css
             addScriptRemote "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"
             addScript     $ StaticR js_app_js
-            rssLink         FeedR "micro.gordonfontenot.com/feed"
+            rssLink         XmlFeedR "micro.gordonfontenot.com/feed"
 
             $(widgetFile "default-layout")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")

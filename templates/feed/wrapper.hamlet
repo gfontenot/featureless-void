@@ -8,6 +8,6 @@
     <title>micro.gordonfontenot.com
     <description>Gordon Fontenot's microblog
     <link>@{HomeR}
-    <atom:link href="@{FeedR}" rel="self" type="application/rss+xml">
+    <atom:link href="@{XmlFeedR}" rel="self" type="application/rss+xml">
 
     ^{pageBody pc}
