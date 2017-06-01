@@ -17,6 +17,7 @@ import Yesod.Core.Types (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
 import qualified Data.CaseInsensitive as CI
 import qualified Data.Text.Encoding as TE
+import Text.Blaze.Renderer.Text (renderMarkup)
 
 data App = App
     { appSettings    :: AppSettings
@@ -147,3 +148,13 @@ instance HasHttpManager App where
 
 unsafeHandler :: App -> Handler a -> IO a
 unsafeHandler = Unsafe.fakeHandlerGetLogger appLogger
+
+renderWidget :: Widget -> Handler Html
+renderWidget widget = do
+    pc <- widgetToPageContent widget
+    withUrlRenderer $(hamletFile "templates/bare-layout-wrapper.hamlet")
+
+widgetText :: Widget -> Handler Text
+widgetText widget = do
+    html <- renderWidget widget
+    return $ toStrict $ renderMarkup html
