@@ -17,6 +17,7 @@ library
                      Foundation
                      Handler.Common
                      Handler.Feed
+                     Handler.Feed.Types
                      Handler.Home
                      Handler.NewScream
                      Handler.ScreamDetail

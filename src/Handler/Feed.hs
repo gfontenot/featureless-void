@@ -6,29 +6,10 @@ import Yesod.RssFeed (RepRss(..))
 import Text.Hamlet (hamletFile)
 
 import Import hiding (feedTitle, feedDescription)
+import Handler.Feed.Types
 import Query
 import Helper
-import Markdown (Markdown, strippedText)
-
-data FeedItem = FeedItem
-    { feedItemScream :: Entity Scream
-    , feedItemImages :: [Entity Image]
-    }
-
-createItem :: (Entity Scream, [Entity Image]) -> FeedItem
-createItem = uncurry FeedItem
-
-itemId :: FeedItem -> ScreamId
-itemId = entityKey . feedItemScream
-
-itemBody :: FeedItem -> Markdown
-itemBody = screamBody . entityVal . feedItemScream
-
-itemCreatedAt :: FeedItem -> UTCTime
-itemCreatedAt = screamCreatedAt . entityVal . feedItemScream
-
-itemImages :: FeedItem -> [Image]
-itemImages = (map entityVal) . feedItemImages
+import Markdown (strippedText)
 
 getXmlFeedR :: Handler RepRss
 getXmlFeedR = feedItems >>= generateFeed
