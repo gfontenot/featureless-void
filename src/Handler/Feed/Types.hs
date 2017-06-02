@@ -1,6 +1,7 @@
 module Handler.Feed.Types
     ( Feed(..)
     , FeedItem(..)
+    , FeedItemAuthor(..)
     ) where
 
 import Import hiding (Feed, feedTitle, feedDescription)
