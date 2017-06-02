@@ -19,14 +19,14 @@ getFeedR = do
 
     selectRep $ do
         provideRep $
-            toRss <$> feedLayout feed $(widgetFile "feed/main")
+            toRss <$> feedLayout feed $(widgetFile "feed/xml/items")
 
         provideJson feed
   where
     feedLayout :: Feed -> Widget -> Handler Html
     feedLayout feed widget = do
         pc <- widgetToPageContent widget
-        withUrlRenderer $(hamletFile "templates/feed/wrapper.hamlet")
+        withUrlRenderer $(hamletFile "templates/feed/xml/wrapper.hamlet")
 
     toRss :: ToContent a => a -> RepRss
     toRss = RepRss . toContent
@@ -57,7 +57,7 @@ generateFeedItem render item = do
         }
 
 markupDescription :: PopulatedScream -> Widget
-markupDescription item = $(widgetFile "feed/description")
+markupDescription item = $(widgetFile "feed/scream-content")
 
 fetchItems :: Handler [PopulatedScream]
 fetchItems = do
