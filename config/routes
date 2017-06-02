@@ -8,3 +8,4 @@
 !/#ScreamId ScreamDetailR GET
 /screams/new NewScreamR GET POST
 /feed FeedR GET
+/feed.xml FeedRedirectR GET

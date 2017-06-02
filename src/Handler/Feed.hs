@@ -1,5 +1,6 @@
 module Handler.Feed
     ( getFeedR
+    , getFeedRedirectR
     ) where
 
 import Yesod.RssFeed (RepRss(..))
@@ -10,6 +11,9 @@ import Handler.Feed.Types
 import Query
 import Helper
 import Markdown (strippedText)
+
+getFeedRedirectR :: Handler ()
+getFeedRedirectR = redirectWith movedPermanently301 FeedR
 
 getFeedR :: Handler TypedContent
 getFeedR = do
