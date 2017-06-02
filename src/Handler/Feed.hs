@@ -44,7 +44,7 @@ generateFeed render screams = do
 
 generateFeedItem :: (Route App -> Text) -> PopulatedScream -> Handler FeedItem
 generateFeedItem render item = do
-    content <- widgetText (markupDescription item)
+    content <- widgetText $(widgetFile "feed/scream-content")
 
     return FeedItem
         { feedItemId = populatedScreamId item
@@ -54,9 +54,6 @@ generateFeedItem render item = do
         , feedItemHtmlContent = content
         , feedItemAuthor = def
         }
-
-markupDescription :: PopulatedScream -> Widget
-markupDescription item = $(widgetFile "feed/scream-content")
 
 fetchItems :: Handler [PopulatedScream]
 fetchItems = do
