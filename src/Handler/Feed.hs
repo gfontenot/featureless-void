@@ -14,8 +14,7 @@ import Markdown (strippedText)
 getFeedR :: Handler TypedContent
 getFeedR = do
     render <- getUrlRender
-    items <- fetchItems
-    feed <- generateFeed render items
+    feed <- generateFeed render =<< fetchItems
 
     selectRep $ do
         provideRep $

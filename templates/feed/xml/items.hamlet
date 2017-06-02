@@ -1,8 +1,8 @@
-$forall item <- items
+$forall item <- feedItems feed
   <item>
-    <description><![CDATA[#{strippedText $ populatedScreamBody item}]]>
-    <content:encoded><![CDATA[^{markupDescription item}]]>
-    <pubDate>#{rssTimestamp $ populatedScreamCreatedAt item}
-    <guid isPermaLink="false">@{ScreamDetailR $ populatedScreamId item}
-    <link>@{ScreamDetailR $ populatedScreamId item}
-    <dc:creator>Gordon Fontenot
+    <description><![CDATA[#{feedItemTextContent item}]]>
+    <content:encoded><![CDATA[#{feedItemHtmlContent item}]]>
+    <pubDate>#{feedItemPublishedAt item}
+    <guid isPermaLink="false">#{feedItemUrl item}
+    <link>#{feedItemUrl item}
+    <dc:creator>#{feedItemAuthorName $ feedItemAuthor item}
