@@ -1,8 +1,8 @@
 $forall item <- items
   <item>
-    <description><![CDATA[#{strippedText $ itemBody item}]]>
+    <description><![CDATA[#{strippedText $ populatedScreamBody item}]]>
     <content:encoded><![CDATA[^{markupDescription item}]]>
-    <pubDate>#{rssTimestamp $ itemCreatedAt item}
-    <guid isPermaLink="false">@{ScreamDetailR $ itemId item}
-    <link>@{ScreamDetailR $ itemId item}
+    <pubDate>#{rssTimestamp $ populatedScreamCreatedAt item}
+    <guid isPermaLink="false">@{ScreamDetailR $ populatedScreamId item}
+    <link>@{ScreamDetailR $ populatedScreamId item}
     <dc:creator>Gordon Fontenot

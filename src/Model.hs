@@ -17,3 +17,17 @@ share [mkPersist sqlSettings, mkMigrate "migrateAll"]
 instance HashDBUser User where
     userPasswordHash = userPassword
     setPasswordHash h u = u { userPassword = Just h }
+
+type PopulatedScream = (Entity Scream, [Entity Image])
+
+populatedScreamId :: PopulatedScream -> ScreamId
+populatedScreamId = entityKey . fst
+
+populatedScreamBody :: PopulatedScream -> Markdown
+populatedScreamBody = screamBody . entityVal . fst
+
+populatedScreamCreatedAt :: PopulatedScream -> UTCTime
+populatedScreamCreatedAt = screamCreatedAt . entityVal . fst
+
+populatedScreamImages :: PopulatedScream -> [Image]
+populatedScreamImages = (map entityVal) . snd

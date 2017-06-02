@@ -1,31 +1,60 @@
 module Handler.Feed.Types
-    ( FeedItem
-    , createItem
-    , itemId
-    , itemBody
-    , itemCreatedAt
-    , itemImages
+    ( Feed(..)
+    , FeedItem(..)
     ) where
 
-import Import
-import Markdown (Markdown)
+import Import hiding (Feed, feedTitle, feedDescription)
 
-data FeedItem = FeedItem
-    { feedItemScream :: Entity Scream
-    , feedItemImages :: [Entity Image]
+data Feed = Feed
+    { feedTitle :: Text
+    , feedDescription :: Text
+    , feedHomeUrl :: Text
+    , feedFeedUrl :: Text
+    , feedItems :: [FeedItem]
     }
 
-createItem :: (Entity Scream, [Entity Image]) -> FeedItem
-createItem = uncurry FeedItem
+data FeedItem = FeedItem
+    { feedItemId :: ScreamId
+    , feedItemPublishedAt :: Text
+    , feedItemUrl :: Text
+    , feedItemTextContent :: Text
+    , feedItemHtmlContent :: Text
+    , feedItemAuthor :: FeedItemAuthor
+    }
 
-itemId :: FeedItem -> ScreamId
-itemId = entityKey . feedItemScream
+data FeedItemAuthor = FeedItemAuthor
+    { feedItemAuthorName :: Text
+    , feedItemAuthorUrl :: Text
+    }
 
-itemBody :: FeedItem -> Markdown
-itemBody = screamBody . entityVal . feedItemScream
+instance ToJSON Feed where
+    toJSON feed = object
+        [ "version" .= ("https://jsonfeed.org/version/1" :: Text)
+        , "title" .= feedTitle feed
+        , "description" .= feedDescription feed
+        , "home_page_url" .= feedHomeUrl feed
+        , "feed_url" .= feedFeedUrl feed
+        , "items" .= feedItems feed
+        ]
 
-itemCreatedAt :: FeedItem -> UTCTime
-itemCreatedAt = screamCreatedAt . entityVal . feedItemScream
+instance ToJSON FeedItem where
+    toJSON item = object
+        [ "id" .= feedItemId item
+        , "date_published" .= feedItemPublishedAt item
+        , "url" .= feedItemUrl item
+        , "content_text" .= feedItemTextContent item
+        , "content_html" .= feedItemHtmlContent item
+        , "author" .= feedItemAuthor item
+        ]
 
-itemImages :: FeedItem -> [Image]
-itemImages = (map entityVal) . feedItemImages
+instance ToJSON FeedItemAuthor where
+    toJSON author = object
+        [ "name" .= feedItemAuthorName author
+        , "url" .= feedItemAuthorUrl author
+        ]
+
+instance Default FeedItemAuthor where
+    def = FeedItemAuthor
+        { feedItemAuthorName = "Gordon Fontenot"
+        , feedItemAuthorUrl = "http://gordonfontenot.com"
+        }

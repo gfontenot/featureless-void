@@ -1,76 +1,66 @@
 module Handler.Feed
-    ( getXmlFeedR
-    , getJsonFeedR
+    ( getFeedR
     ) where
 
 import Yesod.RssFeed (RepRss(..))
 import Text.Hamlet (hamletFile)
 
-import Import hiding (feedTitle, feedDescription)
+import Import hiding (Feed, feedTitle, feedDescription)
 import Handler.Feed.Types
 import Query
 import Helper
 import Markdown (strippedText)
 
-getXmlFeedR :: Handler RepRss
-getXmlFeedR = feedItems >>= generateFeed
-  where
-    generateFeed :: [FeedItem] -> Handler RepRss
-    generateFeed items = toRss <$> feedLayout $(widgetFile "feed/main")
+getFeedR :: Handler TypedContent
+getFeedR = do
+    render <- getUrlRender
+    items <- fetchItems
+    feed <- generateFeed render items
 
-    feedLayout :: Widget -> Handler Html
-    feedLayout widget = do
+    selectRep $ do
+        provideRep $
+            toRss <$> feedLayout feed $(widgetFile "feed/main")
+
+        provideJson feed
+  where
+    feedLayout :: Feed -> Widget -> Handler Html
+    feedLayout feed widget = do
         pc <- widgetToPageContent widget
         withUrlRenderer $(hamletFile "templates/feed/wrapper.hamlet")
 
     toRss :: ToContent a => a -> RepRss
     toRss = RepRss . toContent
 
-getJsonFeedR :: Handler Value
-getJsonFeedR = feedItems >>= generateFeed
-  where
-    generateFeed :: [FeedItem] -> Handler Value
-    generateFeed items = do
-        render <- getUrlRender
-        items' <- mapM (itemJSON render) items
-        return $ object
-            [ "version" .= ("https://jsonfeed.org/version/1" :: Text)
-            , "title" .= feedTitle
-            , "description" .= feedDescription
-            , "home_page_url" .= render HomeR
-            , "feed_url" .= render JsonFeedR
-            , "items" .= items'
-            ]
+generateFeed :: (Route App -> Text) -> [PopulatedScream] -> Handler Feed
+generateFeed render screams = do
+    items <- mapM (generateFeedItem render) screams
 
-    itemJSON :: (Route App -> Text) -> FeedItem -> Handler Value
-    itemJSON render item = do
-        content <- widgetText (markupDescription item)
-        return $ object
-            [ "id" .= itemId item
-            , "date_published" .= rfc3339Timestamp (itemCreatedAt item)
-            , "url" .= render (ScreamDetailR $ itemId item)
-            , "content_text" .= strippedText (itemBody item)
-            , "content_html" .= content
-            , "author" .= author
-            ]
+    return Feed
+        { feedTitle = "micro.gordonfontenot.com"
+        , feedDescription = "Gordon Fontenot's microblog"
+        , feedHomeUrl = render HomeR
+        , feedFeedUrl = render FeedR
+        , feedItems = items
+        }
 
-    author :: Value
-    author = object
-        [ "name" .= ("Gordon Fontenot" :: Text)
-        , "url" .= ("http://gordonfontenot.com" :: Text)
-        ]
+generateFeedItem :: (Route App -> Text) -> PopulatedScream -> Handler FeedItem
+generateFeedItem render item = do
+    content <- widgetText (markupDescription item)
 
-markupDescription :: FeedItem -> Widget
+    return FeedItem
+        { feedItemId = populatedScreamId item
+        , feedItemPublishedAt = rfc3339Timestamp (populatedScreamCreatedAt item)
+        , feedItemUrl = render (ScreamDetailR $ populatedScreamId item)
+        , feedItemTextContent = strippedText (populatedScreamBody item)
+        , feedItemHtmlContent = content
+        , feedItemAuthor = def
+        }
+
+markupDescription :: PopulatedScream -> Widget
 markupDescription item = $(widgetFile "feed/description")
 
-feedItems :: Handler [FeedItem]
-feedItems = do
+fetchItems :: Handler [PopulatedScream]
+fetchItems = do
     screams <- runDB $ recentScreams
     images <- runDB $ fetchImagesForScreams screams
-    return $ map (createItem . (joinOneToMany screamImage images)) screams
-
-feedTitle :: Text
-feedTitle = "micro.gordonfontenot.com"
-
-feedDescription :: Text
-feedDescription = "Gordon Fontenot's microblog"
+    return $ map (joinOneToMany screamImage images) screams

@@ -1,4 +1,4 @@
 $newline never
-#{itemBody item}
-$forall image <- itemImages item
+#{populatedScreamBody item}
+$forall image <- populatedScreamImages item
   <img src="#{imageUrl image}" alt="#{imageFileName image}" />

@@ -12,8 +12,8 @@ timestamp = formatTime defaultTimeLocale timestampFormat
 rssTimestamp :: UTCTime -> String
 rssTimestamp = formatTime defaultTimeLocale rssTimestampFormat
 
-rfc3339Timestamp :: UTCTime -> String
-rfc3339Timestamp = formatTime defaultTimeLocale rfc3339TimestampFormat
+rfc3339Timestamp :: UTCTime -> Text
+rfc3339Timestamp = pack . formatTime defaultTimeLocale rfc3339TimestampFormat
 
 timestampFormat :: String
 timestampFormat = "%B %d, %Y - %l:%M %p"

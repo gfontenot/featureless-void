@@ -7,5 +7,4 @@
 / HomeR GET
 !/#ScreamId ScreamDetailR GET
 /screams/new NewScreamR GET POST
-/feed.xml XmlFeedR GET
-/feed.json JsonFeedR GET
+/feed FeedR GET
