@@ -1,18 +1,18 @@
 module Helper.Time
     ( rfc3339Timestamp
-    , timestamp
+    , displayTimestamp
     ) where
 
 import Import
 
-timestamp :: UTCTime -> String
-timestamp = formatTime defaultTimeLocale timestampFormat
+displayTimestamp :: UTCTime -> String
+displayTimestamp = formatTime defaultTimeLocale displayTimestampFormat
 
 rfc3339Timestamp :: UTCTime -> Text
 rfc3339Timestamp = pack . formatTime defaultTimeLocale rfc3339TimestampFormat
 
-timestampFormat :: String
-timestampFormat = "%B %d, %Y - %l:%M %p"
+displayTimestampFormat :: String
+displayTimestampFormat = "%B %d, %Y - %l:%M %p"
 
 rfc3339TimestampFormat :: String
 rfc3339TimestampFormat = "%Y-%m-%dT%H:%M:%S%z"
