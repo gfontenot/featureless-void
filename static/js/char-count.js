@@ -4,7 +4,7 @@ $('#scream-body').on('input', function() {
   var text = $(this).val()
   var html = markdown.toHTML(text)
   $(preview).html(html)
-  var count = preview.innerText.length
+  var count = twttr.txt.getTweetLength(preview.innerText)
 
   $('#scream-length').text(count);
 

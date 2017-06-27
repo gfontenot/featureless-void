@@ -70,6 +70,7 @@ renderNewScream :: Widget -> Enctype -> Handler Html
 renderNewScream form enctype = defaultLayout $ do
     setTitle "New Scream"
     addScript $ StaticR js_markdown_min_js
+    addScript $ StaticR js_twitter_text_min_js
     addScript $ StaticR js_char_count_js
     $(widgetFile "screams/new")
 
