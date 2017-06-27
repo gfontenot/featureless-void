@@ -8,7 +8,7 @@ import Text.Hamlet (hamletFile)
 import Import
 import Helper
 import Query
-import Markdown (strippedText)
+import Markdown (plainText)
 
 getScreamDetailR :: ScreamId -> Handler Html
 getScreamDetailR sid = do
@@ -19,7 +19,7 @@ getScreamDetailR sid = do
         openGraphHead (scream, images)
         singleScream (scream, images)
   where
-    screamTitle = toHtml . strippedText . screamBody . entityVal
+    screamTitle = toHtml . plainText . screamBody . entityVal
 
 singleScream :: (Entity Scream, [Entity Image]) -> Widget
 singleScream (Entity sid scream, images) = do

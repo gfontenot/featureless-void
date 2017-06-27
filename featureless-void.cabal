@@ -118,7 +118,6 @@ library
                  , blaze-markup
                  , pandoc
                  , yesod-newsfeed
-                 , hxt
                  , authenticate-oauth
                  , http-client
                  , conduit-extra

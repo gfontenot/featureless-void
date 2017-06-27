@@ -10,7 +10,7 @@ import Import hiding (Feed, feedTitle, feedDescription)
 import Handler.Feed.Types
 import Query
 import Helper
-import Markdown (strippedText)
+import Markdown (plainText)
 
 getFeedRedirectR :: Handler ()
 getFeedRedirectR = redirectWith movedPermanently301 FeedR
@@ -54,7 +54,7 @@ generateFeedItem render item = do
         { feedItemId = populatedScreamId item
         , feedItemPublishedAt = rfc3339Timestamp (populatedScreamCreatedAt item)
         , feedItemUrl = render (ScreamDetailR $ populatedScreamId item)
-        , feedItemTextContent = strippedText (populatedScreamBody item)
+        , feedItemTextContent = plainText (populatedScreamBody item)
         , feedItemHtmlContent = content
         , feedItemAuthor = def
         }
