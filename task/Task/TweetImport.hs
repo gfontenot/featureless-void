@@ -69,4 +69,4 @@ mimeType :: FilePath -> Text
 mimeType = decodeUtf8 . defaultMimeLookup . pack
 
 toScream :: Tweet -> Scream
-toScream t = Scream (markdown $ tweetBody t) (tweetCreatedAt t) (Just $ tweetId t)
+toScream t = Scream (Markdown $ tweetBody t) (tweetCreatedAt t) (Just $ tweetId t)

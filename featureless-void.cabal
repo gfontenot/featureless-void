@@ -103,7 +103,6 @@ library
                  , time
                  , case-insensitive
                  , wai
-                 , yesod-markdown
                  , yesod-auth-hashdb
                  , pwstore-fast
                  , yesod-paginator
@@ -121,6 +120,7 @@ library
                  , authenticate-oauth
                  , http-client
                  , conduit-extra
+                 , xss-sanitize
 
 executable         featureless-void
     if flag(library-only)
@@ -151,7 +151,6 @@ executable         task
                      , optparse-applicative
                      , text
                      , yesod-core
-                     , yesod-markdown
 
     ghc-options:       -Wall -threaded -rtsopts -with-rtsopts=-N -O2
 
