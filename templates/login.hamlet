@@ -4,4 +4,13 @@
     <input type=hidden name=#{defaultCsrfParamName} value=#{tok}>
   <input type="text" name="username" placeholder="username" required>
   <input type="password" name="password" placeholder="password" required>
+
+  $maybe apiParams <- mapiQueryParams
+    <input type=hidden name="api-me" value="#{paramMe apiParams}">
+    <input type=hidden name="api-redirect-uri" value="#{paramRedirectUri apiParams}">
+    <input type=hidden name="api-client-id" value="#{paramClientId apiParams}">
+    <input type=hidden name="api-state" value="#{paramState apiParams}">
+    <input type=hidden name="api-scope" value="#{paramScope apiParams}">
+    <input type=hidden name="api-response-type" value="#{paramResponseType apiParams}">
+
   <input type="submit" value="Login">

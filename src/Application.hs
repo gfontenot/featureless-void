@@ -56,6 +56,7 @@ import LoadEnv (loadEnv)
 import Handler.Common
 import Handler.Feed
 import Handler.Home
+import Handler.Micropub.Auth
 import Handler.NewScream
 import Handler.ScreamDetail
 

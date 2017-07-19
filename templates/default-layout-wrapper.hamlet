@@ -6,6 +6,9 @@ $doctype 5
     <title>#{pageTitle pc}
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="authorization_endpoint" href="http://3fe5dd65.ngrok.io/api/micropub/auth">
+    <link rel="token_endpoint" href="http://3fe5dd65.ngrok.io/api/micropub/token">
+    <link rel="micropub" href="http://3fe5dd65.ngrok.io/api/micropub/create">
 
     <!-- Micro.blog -->
     <link href="https://micro.blog/gfontenot" rel="me">

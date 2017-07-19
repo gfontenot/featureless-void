@@ -19,6 +19,8 @@ library
                      Handler.Feed
                      Handler.Feed.Types
                      Handler.Home
+                     Handler.Micropub.Auth
+                     Handler.Micropub.Auth.Types
                      Handler.NewScream
                      Handler.ScreamDetail
                      Helper

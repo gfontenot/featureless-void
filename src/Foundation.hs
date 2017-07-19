@@ -19,6 +19,8 @@ import qualified Data.CaseInsensitive as CI
 import qualified Data.Text.Encoding as TE
 import Text.Blaze.Renderer.Text (renderMarkup)
 
+import Handler.Micropub.Auth.Types (ApiQueryParams(..))
+
 data App = App
     { appSettings    :: AppSettings
     , appStatic      :: Static -- ^ Settings for static file serving.
@@ -115,7 +117,7 @@ instance YesodAuth App where
 
     loginDest _ = NewScreamR
     logoutDest _ = HomeR
-    authPlugins _ = [authHashDBWithForm loginForm (Just . UniqueUser)]
+    authPlugins _ = [authHashDBWithForm simpleLoginForm (Just . UniqueUser)]
 
     authenticate creds = runDB $ do
         u <- getBy $ UniqueUser $ credsIdent creds
@@ -125,8 +127,11 @@ instance YesodAuth App where
 
     authHttpManager = getHttpManager
 
-loginForm :: Route App -> Widget
-loginForm action = do
+simpleLoginForm :: Route App -> Widget
+simpleLoginForm route = loginForm route Nothing
+
+loginForm :: Route App -> Maybe ApiQueryParams -> Widget
+loginForm action mapiQueryParams = do
     request <- getRequest
     let mtok = reqToken request
     $(whamletFile "templates/login.hamlet")

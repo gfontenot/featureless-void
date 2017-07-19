@@ -9,3 +9,5 @@
 /screams/new NewScreamR GET POST
 /feed FeedR GET
 /feed.xml FeedRedirectR GET
+
+/api/micropub/auth MicropubAuthR GET POST
