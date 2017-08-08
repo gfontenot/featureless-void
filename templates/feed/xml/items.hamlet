@@ -1,7 +1,7 @@
 $forall item <- feedItems feed
   <item>
     <description><![CDATA[#{feedItemTextContent item}]]>
-    <content:encoded><![CDATA[#{feedItemHtmlContent item}]]>
+    <content:encoded><![CDATA[#{preEscapedToMarkup $ feedItemHtmlContent item}]]>
     <pubDate>#{feedItemPublishedAt item}
     <guid isPermaLink="false">#{feedItemUrl item}
     <link>#{feedItemUrl item}
