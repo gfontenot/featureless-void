@@ -76,6 +76,7 @@ instance Yesod App where
 
     -- Routes not requiring authentication.
     isAuthorized NewScreamR _ = isAuthenticated
+    isAuthorized (EditScreamR _) _ = isAuthenticated
     isAuthorized _ _ = return Authorized
 
     addStaticContent ext mime content = do
