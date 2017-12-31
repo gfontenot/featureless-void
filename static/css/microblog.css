@@ -34,8 +34,12 @@
   display: inline;
 }
 
-.meta, .meta a {
+.meta, .meta a, .edit-scream {
   border: none;
   color: #afafaf;
   font-size: 12px;
+}
+
+.edit-scream {
+  float: right;
 }

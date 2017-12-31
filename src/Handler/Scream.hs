@@ -45,10 +45,11 @@ getShowScreamR :: ScreamId -> Handler Html
 getShowScreamR sid = do
     scream <- runDB $ fetch404 sid
     images <- runDB $ fetchImagesForScream scream
+    authResult <- isAuthenticated
     defaultLayout $ do
         setTitle $ screamTitle scream
         openGraphHead (scream, images)
-        showSingleScream (scream, images)
+        showSingleScream authResult (scream, images)
   where
     screamTitle = toHtml . plainText . screamBody . entityVal
 
@@ -78,8 +79,10 @@ postNewScreamR = do
 
 -- Rendering
 
-showSingleScream :: (Entity Scream, [Entity Image]) -> Widget
-showSingleScream (Entity sid scream, images) = $(widgetFile "screams/show")
+showSingleScream :: AuthResult -> (Entity Scream, [Entity Image]) -> Widget
+showSingleScream authResult (Entity sid scream, images) = do
+    let authenticated = authResult == Authorized
+    $(widgetFile "screams/show")
 
 -- Helpers
 

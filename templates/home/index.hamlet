@@ -1,4 +1,4 @@
 $forall scream <- screams
-  ^{showSingleScream scream}
+  ^{showSingleScream authResult scream}
 
 ^{pagination}

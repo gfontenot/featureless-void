@@ -1,4 +1,6 @@
 <section .scream>
+  $if authenticated
+    <a .edit-scream href=@{EditScreamR sid}>Edit
   <article>
     #{screamBody scream}
     $forall Entity _ image <- images

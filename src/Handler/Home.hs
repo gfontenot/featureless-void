@@ -18,6 +18,7 @@ getHomeR = do
     (screams', pagination) <- runDB $ paginatedScreams 30 simpleWidget
     images <- runDB $ fetchImagesForScreams screams'
     let screams = map (joinOneToMany screamImage images) screams'
+    authResult <- isAuthenticated
     defaultLayout $ do
         setTitle "micro.gordonfontenot.com"
         openGraphHead
