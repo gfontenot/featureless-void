@@ -1,4 +1,4 @@
 $forall scream <- screams
-  ^{singleScream scream}
+  ^{showSingleScream scream}
 
 ^{pagination}

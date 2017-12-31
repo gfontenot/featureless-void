@@ -1,12 +1,18 @@
-module Handler.NewScream
+module Handler.Scream
     ( getNewScreamR
+    , getShowScreamR
     , postNewScreamR
+    , showSingleScream
     ) where
 
-import Import
-import Markdown
-import qualified Helper.S3 as S3
+import Text.Hamlet (hamletFile)
 
+import Import
+import Helper
+import Query
+import Markdown (Markdown, markdownField, plainText)
+
+import qualified Helper.S3 as S3
 import qualified Helper.Twitter as Twitter
 import Helper.Twitter.Types (Tweet(..))
 
@@ -16,10 +22,23 @@ data ScreamFields = ScreamFields
     , twitterCrosspostField :: Bool
     }
 
+-- Routes
+
 getNewScreamR :: Handler Html
 getNewScreamR = do
     (form, enctype) <- generateFormPost screamForm
     renderNewScream form enctype
+
+getShowScreamR :: ScreamId -> Handler Html
+getShowScreamR sid = do
+    scream <- runDB $ fetch404 sid
+    images <- runDB $ fetchImagesForScream scream
+    defaultLayout $ do
+        setTitle $ screamTitle scream
+        openGraphHead (scream, images)
+        showSingleScream (scream, images)
+  where
+    screamTitle = toHtml . plainText . screamBody . entityVal
 
 postNewScreamR :: Handler Html
 postNewScreamR = do
@@ -33,6 +52,17 @@ postNewScreamR = do
           void $ runDB $ insertMany images
           redirect HomeR
       _ -> renderNewScream form enctype
+
+-- Rendering
+
+showSingleScream :: (Entity Scream, [Entity Image]) -> Widget
+showSingleScream (Entity sid scream, images) = $(widgetFile "screams/show")
+
+-- Helpers
+
+openGraphHead :: (Entity Scream, [Entity Image]) -> Widget
+openGraphHead (Entity sid scream, images) =
+        toWidgetHead $(hamletFile "templates/open-graph/scream.hamlet")
 
 twitterCrosspostIfNecessary :: ScreamFields -> Handler (Maybe Text)
 twitterCrosspostIfNecessary fields
@@ -76,7 +106,7 @@ renderNewScream form enctype = defaultLayout $ do
 
 createUpload :: FileInfo -> S3.Upload
 createUpload info = S3.Upload
-    { uploadSource = (fileSource info)
-    , uploadContentType = (fileContentType info)
-    , uploadFileName = (fileName info)
+    { uploadSource = fileSource info
+    , uploadContentType = fileContentType info
+    , uploadFileName = fileName info
     }

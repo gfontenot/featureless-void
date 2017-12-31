@@ -53,7 +53,7 @@ generateFeedItem render item = do
     return FeedItem
         { feedItemId = populatedScreamId item
         , feedItemPublishedAt = rfc3339Timestamp (populatedScreamCreatedAt item)
-        , feedItemUrl = render (ScreamDetailR $ populatedScreamId item)
+        , feedItemUrl = render (ShowScreamR $ populatedScreamId item)
         , feedItemTextContent = plainText (populatedScreamBody item)
         , feedItemHtmlContent = content
         , feedItemAuthor = def
@@ -61,6 +61,6 @@ generateFeedItem render item = do
 
 fetchItems :: Handler [PopulatedScream]
 fetchItems = do
-    screams <- runDB $ recentScreams
+    screams <- runDB recentScreams
     images <- runDB $ fetchImagesForScreams screams
     return $ map (joinOneToMany screamImage images) screams

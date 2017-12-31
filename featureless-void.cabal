@@ -19,8 +19,7 @@ library
                      Handler.Feed
                      Handler.Feed.Types
                      Handler.Home
-                     Handler.NewScream
-                     Handler.ScreamDetail
+                     Handler.Scream
                      Helper
                      Helper.S3
                      Helper.Time

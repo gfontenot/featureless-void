@@ -11,7 +11,7 @@ import Yesod.Paginator
 import Import
 import Query
 
-import Handler.ScreamDetail (singleScream)
+import Handler.Scream (showSingleScream)
 
 getHomeR :: Handler Html
 getHomeR = do

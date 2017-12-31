@@ -1,7 +1,7 @@
 <meta property="og:title" content="#{plainText $ screamBody scream}">
 <meta property="og:description" content="Gordon Fontenot's microblog">
 <meta property="og:type" content="article">
-<meta property="og:url" content="@{ScreamDetailR sid}">
+<meta property="og:url" content="@{ShowScreamR sid}">
 <meta property="og:site_name" content="micro.gordonfontenot.com">
 <meta property="fb:app_id" content="1476632935702492">
 $if null images

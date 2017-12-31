@@ -56,8 +56,7 @@ import LoadEnv (loadEnv)
 import Handler.Common
 import Handler.Feed
 import Handler.Home
-import Handler.NewScream
-import Handler.ScreamDetail
+import Handler.Scream
 
 mkYesodDispatch "App" resourcesApp
 

@@ -5,7 +5,7 @@
       <img src="#{imageUrl image}" alt="#{imageFileName image}" />
   <div .meta>
     <time datetime="#{show $ screamCreatedAt scream}">
-      <a href=@{ScreamDetailR sid}>
+      <a href=@{ShowScreamR sid}>
         #{displayTimestamp $ screamCreatedAt scream}
     $maybe tid <- screamTweetId scream
         &#8226; <a alt="View on Twitter" href="https://twitter.com/gfontenot/status/#{tid}">tw</a>
