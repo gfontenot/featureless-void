@@ -1,4 +1,4 @@
-<form method=post action=@{NewScreamR} enctype=#{enctype}>
+<form method=post action=@{action} enctype=#{enctype}>
   ^{form}
   <span #scream-length .valid-scream .valid-tweet>0
   <span #screamTotal>/ 280

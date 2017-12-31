@@ -1,6 +1,8 @@
 module Handler.Scream
-    ( getNewScreamR
+    ( getEditScreamR
+    , getNewScreamR
     , getShowScreamR
+    , postEditScreamR
     , postNewScreamR
     , showSingleScream
     ) where
@@ -16,18 +18,28 @@ import qualified Helper.S3 as S3
 import qualified Helper.Twitter as Twitter
 import Helper.Twitter.Types (Tweet(..))
 
-data ScreamFields = ScreamFields
-    { bodyField :: Markdown
-    , imageField :: Maybe FileInfo
-    , twitterCrosspostField :: Bool
+data EditScreamFields = EditScreamFields
+    { editBodyField :: Markdown
+    }
+
+data NewScreamFields = NewScreamFields
+    { newBodyField :: Markdown
+    , newImageField :: Maybe FileInfo
+    , newTwitterCrosspostField :: Bool
     }
 
 -- Routes
 
+getEditScreamR :: ScreamId -> Handler Html
+getEditScreamR sid = do
+    (Entity _ scream) <- runDB $ fetch404 sid
+    (form, encType) <- generateFormPost $ editScreamForm scream
+    renderScreamForm "Edit Scream" (EditScreamR sid) form encType
+
 getNewScreamR :: Handler Html
 getNewScreamR = do
-    (form, enctype) <- generateFormPost screamForm
-    renderNewScream form enctype
+    (form, enctype) <- generateFormPost newScreamForm
+    renderScreamForm "New Scream" NewScreamR form enctype
 
 getShowScreamR :: ScreamId -> Handler Html
 getShowScreamR sid = do
@@ -40,9 +52,20 @@ getShowScreamR sid = do
   where
     screamTitle = toHtml . plainText . screamBody . entityVal
 
+postEditScreamR :: ScreamId -> Handler Html
+postEditScreamR sid = do
+    (Entity _ scream) <- runDB $ fetch404 sid
+    ((res, form), enctype) <- runFormPost $ editScreamForm scream
+    case res of
+      FormSuccess fields -> do
+          let editedBody = editBodyField fields
+          void $ runDB $ update sid [ScreamBody =. editedBody]
+          redirect $ ShowScreamR sid
+      _ -> renderScreamForm "EditScream" (EditScreamR sid) form enctype
+
 postNewScreamR :: Handler Html
 postNewScreamR = do
-    ((res, form), enctype) <- runFormPost screamForm
+    ((res, form), enctype) <- runFormPost newScreamForm
     case res of
       FormSuccess fields -> do
           tid <- twitterCrosspostIfNecessary fields
@@ -51,7 +74,7 @@ postNewScreamR = do
           images <- parseImages fields sid
           void $ runDB $ insertMany images
           redirect HomeR
-      _ -> renderNewScream form enctype
+      _ -> renderScreamForm "New Scream" NewScreamR form enctype
 
 -- Rendering
 
@@ -64,45 +87,53 @@ openGraphHead :: (Entity Scream, [Entity Image]) -> Widget
 openGraphHead (Entity sid scream, images) =
         toWidgetHead $(hamletFile "templates/open-graph/scream.hamlet")
 
-twitterCrosspostIfNecessary :: ScreamFields -> Handler (Maybe Text)
+twitterCrosspostIfNecessary :: NewScreamFields -> Handler (Maybe Text)
 twitterCrosspostIfNecessary fields
-    | twitterCrosspostField fields = do
-        images <- mapM Twitter.uploadImage $ maybeToList $ imageField fields
-        let status = plainText . bodyField $ fields
+    | newTwitterCrosspostField fields = do
+        images <- mapM Twitter.uploadImage $ maybeToList $ newImageField fields
+        let status = plainText . newBodyField $ fields
         tweet <- Twitter.postTweet status images
         return $ Just $ tweetId tweet
     | otherwise = return Nothing
 
-parseImages :: ScreamFields -> ScreamId -> Handler [Image]
+parseImages :: NewScreamFields -> ScreamId -> Handler [Image]
 parseImages f sid = do
-    images <- S3.uploadItems $ map createUpload $ maybeToList $ imageField f
+    images <- S3.uploadItems $ map createUpload $ maybeToList $ newImageField f
     return $ fmap createImage images
   where
     createImage (desc, url) = Image sid (S3.uploadFileName desc) url
 
-parseScream :: ScreamFields -> Maybe Text -> Handler Scream
+parseScream :: NewScreamFields -> Maybe Text -> Handler Scream
 parseScream f tid = do
     now <- liftIO getCurrentTime
     return Scream
-        { screamBody = bodyField f
+        { screamBody = newBodyField f
         , screamCreatedAt = now
         , screamTweetId = tid
         }
 
-screamForm :: Form ScreamFields
-screamForm = renderDivs $
-    ScreamFields
-        <$> areq markdownField ("Body" { fsId = Just "scream-body" }) Nothing
+editScreamForm :: Scream -> Form EditScreamFields
+editScreamForm scream = renderDivs $
+    EditScreamFields
+        <$> screamBodyField (Just $ screamBody scream)
+
+newScreamForm :: Form NewScreamFields
+newScreamForm = renderDivs $
+    NewScreamFields
+        <$> screamBodyField Nothing
         <*> fileAFormOpt "Image"
         <*> areq checkBoxField "Crosspost to Twitter" (Just True)
 
-renderNewScream :: Widget -> Enctype -> Handler Html
-renderNewScream form enctype = defaultLayout $ do
-    setTitle "New Scream"
+screamBodyField :: Maybe Markdown -> AForm Handler Markdown
+screamBodyField = areq markdownField ("Body" { fsId = Just "scream-body" })
+
+renderScreamForm :: Html -> Route App -> Widget -> Enctype -> Handler Html
+renderScreamForm title action form enctype = defaultLayout $ do
+    setTitle title
     addScript $ StaticR js_markdown_min_js
     addScript $ StaticR js_twitter_text_min_js
     addScript $ StaticR js_char_count_js
-    $(widgetFile "screams/new")
+    $(widgetFile "screams/form")
 
 createUpload :: FileInfo -> S3.Upload
 createUpload info = S3.Upload

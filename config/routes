@@ -7,5 +7,6 @@
 / HomeR GET
 !/#ScreamId ShowScreamR GET
 /screams/new NewScreamR GET POST
+/screams/#ScreamId/edit EditScreamR GET POST
 /feed FeedR GET
 /feed.xml FeedRedirectR GET
