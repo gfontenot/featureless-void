@@ -68,6 +68,7 @@ toPandoc m = either mempty id $ parse m
 plainWriterOptions :: WriterOptions
 plainWriterOptions = def
     { writerExtensions = plainExtensions
+    , writerWrapText = WrapNone
     }
 
 htmlWriterOptions :: WriterOptions

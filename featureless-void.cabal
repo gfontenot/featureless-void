@@ -175,6 +175,7 @@ test-suite test
     type:              exitcode-stdio-1.0
     main-is:           Spec.hs
     other-modules:     Handler.CommonSpec
+                       MarkdownSpec
                        TestImport
     hs-source-dirs:    test
     ghc-options:       -Wall
